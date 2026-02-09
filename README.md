@@ -14,6 +14,46 @@ This package turns your application into Service Provider with the support of mu
 
 ## Getting Started
 
+### Migrating From Archived `24slides/laravel-saml2`
+
+<details>
+<summary>Show migration steps</summary>
+
+`scaler-tech/laravel-saml2` in the `2.5.x` line is fully compatible with the archived original package for existing integrations.
+
+If your `composer.json` currently contains:
+
+```json
+{
+  "require": {
+    "24slides/laravel-saml2": "^2.0"
+  }
+}
+```
+
+Switch it to:
+
+```json
+{
+  "require": {
+    "scaler-tech/laravel-saml2": "^2.5"
+  }
+}
+```
+
+Then update dependencies:
+
+```bash
+composer update scaler-tech/laravel-saml2 --with-all-dependencies
+```
+
+</details>
+
+### Versioning Policy
+
+- Use `2.5.x` for legacy compatibility with the archived package while we continue supporting modern Laravel versions on this line.
+- `3.x` is currently in development and will include breaking changes, so it will not be backwards compatible with the older package line.
+
 ### Installing
 
 ##### Step 1. Install dependency
