@@ -1,10 +1,15 @@
 {
     "name": "scaler-tech/laravel-saml2",
-    "type": "library",
     "description": "SAML2 Service Provider integration for Laravel applications, based on OneLogin toolkit",
-    "keywords": ["laravel", "saml", "saml2", "onelogin", "sso"],
-    "homepage": "https://github.com/scaler-tech/laravel-saml2",
     "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "saml",
+        "saml2",
+        "onelogin",
+        "sso"
+    ],
     "authors": [
         {
             "name": "Scaler Tech",
@@ -15,6 +20,7 @@
             "email": "brezzhnev@gmail.com"
         }
     ],
+    "homepage": "https://github.com/scaler-tech/laravel-saml2",
     "support": {
         "issues": "https://github.com/scaler-tech/laravel-saml2/issues",
         "source": "https://github.com/scaler-tech/laravel-saml2"
@@ -22,17 +28,19 @@
     "require": {
         "php": ">=7.1",
         "ext-openssl": "*",
-        "illuminate/console": "~5.5|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
-        "illuminate/database": "~5.5|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
-        "illuminate/support": "~5.5|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
-        "onelogin/php-saml": "^3.0|^4.0",
-        "ramsey/uuid": "^3.8|^4.0"
+        "illuminate/console": "^5.5 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0",
+        "illuminate/database": "^5.5 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0",
+        "illuminate/support": "^5.5 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0",
+        "onelogin/php-saml": "^3.0 || ^4.0",
+        "ramsey/uuid": "^3.8 || ^4.0"
     },
     "require-dev": {
         "mockery/mockery": "^0.9.9",
-        "phpunit/phpunit": "^7.5|^9.0",
+        "phpunit/phpunit": "^7.5 || ^9.0",
         "squizlabs/php_codesniffer": "^2.3"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Slides\\Saml2\\": "src/"
@@ -42,6 +50,9 @@
         ]
     },
     "extra": {
+        "branch-aliases": {
+            "dev-master": "2.4.x-dev"
+        },
         "laravel": {
             "aliases": {
                 "Saml2": "Slides\\Saml2\\Facades\\Auth"
@@ -49,11 +60,6 @@
             "providers": [
                 "Slides\\Saml2\\ServiceProvider"
             ]
-        },
-        "branch-aliases": {
-            "dev-master": "2.4.x-dev"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }

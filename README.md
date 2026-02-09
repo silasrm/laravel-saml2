@@ -279,7 +279,7 @@ This fork is maintained by Scaler Tech. Please report vulnerabilities through Gi
 ## Credits
 
 - Repository: [scaler-tech/laravel-saml2](https://github.com/scaler-tech/laravel-saml2)
-- Original authors: [aacotroneo](https://github.com/aacotroneo), [brezzhnev](https://github.com/brezzhnev)
+- Original authors: [brezzhnev](https://github.com/brezzhnev), [aacotroneo](https://github.com/aacotroneo)
 - Current maintainers: [Scaler Tech](https://github.com/scaler-tech)
 - [All Contributors](https://github.com/scaler-tech/laravel-saml2/contributors)
 
