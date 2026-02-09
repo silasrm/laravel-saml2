@@ -1,8 +1,7 @@
-## [Laravel 5.5+] SAML Service Provider
+## Laravel SAML Service Provider
 
-This repository is maintained by [Scaler Tech](https://github.com/scaler-tech) at [scaler-tech/laravel-saml2](https://github.com/scaler-tech/laravel-saml2).
-
-The package namespace remains `Slides\Saml2` for backwards compatibility.
+> This repository is maintained by [Scaler Tech](https://github.com/scaler-tech) at [scaler-tech/laravel-saml2](https://github.com/scaler-tech/laravel-saml2).  
+> The package namespace remains `Slides\Saml2` for backwards compatibility.
 
 An integration to add SSO to your service via SAML2 protocol based on [OneLogin](https://github.com/onelogin/php-saml) toolkit. 
 
