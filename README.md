@@ -1,17 +1,7 @@
-> ## ⚠️ THIS REPOSITORY IS DEPRECATED ⚠️
->
-> **This package is no longer maintained by 24Slides.**
-> It will not receive any further updates, bug fixes, or security patches. We strongly recommend using an alternative, actively maintained SAML package for Laravel.
-> You are free to fork this repository and continue its development independently.
+## Laravel SAML Service Provider
 
-## [Laravel 5.4+] SAML Service Provider 
-
-[![Latest Stable Version][ico-version]][link-packagist]
-[![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
-[![Quality Score][ico-code-quality]][link-code-quality]
-[![Code Coverage][ico-code-coverage]][link-code-coverage]
-[![Total Downloads][ico-downloads]][link-downloads]
+> This repository is maintained by [Scaler Tech](https://github.com/scaler-tech) at [scaler-tech/laravel-saml2](https://github.com/scaler-tech/laravel-saml2).  
+> The package namespace remains `Slides\Saml2` for backwards compatibility.
 
 An integration to add SSO to your service via SAML2 protocol based on [OneLogin](https://github.com/onelogin/php-saml) toolkit. 
 
@@ -19,8 +9,8 @@ This package turns your application into Service Provider with the support of mu
 
 ## Requirements
 
-- Laravel 5.4+
-- PHP 7.0+
+- Laravel 5.5+
+- PHP 7.1+
 
 ## Getting Started
 
@@ -29,7 +19,7 @@ This package turns your application into Service Provider with the support of mu
 ##### Step 1. Install dependency
 
 ```
-composer require 24slides/laravel-saml2
+composer require scaler-tech/laravel-saml2
 ```
 
 If you are using Laravel 5.5 and higher, the service provider will be automatically registered.
@@ -99,7 +89,7 @@ The following routes are registered by default:
 - `GET saml2/{uuid}/logout`
 - `GET saml2/{uuid}/metadata`
 - `POST saml2/{uuid}/acs`
-- `POST saml2/{uuid}/sls`
+- `GET saml2/{uuid}/sls`
 
 You may disable them by setting `saml2.useRoutes` to `false`.
 
@@ -169,11 +159,11 @@ protected $middlewareGroups = [
 
 There are two ways the user can logout:
 - By logging out in your app. In this case you SHOULD notify the IdP first so it'll close the global session.
-- By logging out of the global SSO Session. In this case the IdP will notify you on `/saml2/{uuid}/slo` endpoint (already provided).
+- By logging out of the global SSO Session. In this case the IdP will notify you on `/saml2/{uuid}/sls` endpoint (already provided).
 
 For the first case, call `Saml2Auth::logout();` or redirect the user to the route `saml.logout` which does just that. 
 Do not close the session immediately as you need to receive a response confirmation from the IdP (redirection). 
-That response will be handled by the library at `/saml2/sls` and will fire an event for you to complete the operation.
+That response will be handled by the library at `/saml2/{uuid}/sls` and will fire an event for you to complete the operation.
 
 For the second case you will only receive the event. Both cases receive the same event. 
 
@@ -284,31 +274,15 @@ vendor/bin/phpunit
 
 ## Security
 
-As this project is **no longer maintained**, security vulnerabilities will not be fixed by 24Slides. The email address previously listed for reporting is no longer monitored for this project.
+This fork is maintained by Scaler Tech. Please report vulnerabilities through GitHub Security Advisories in this repository.
 
 ## Credits
 
-- [aacotroneo][link-original-author]
-- [brezzhnev][link-author]
-- [All Contributors][link-contributors]
+- Repository: [scaler-tech/laravel-saml2](https://github.com/scaler-tech/laravel-saml2)
+- Original authors: [brezzhnev](https://github.com/brezzhnev), [aacotroneo](https://github.com/aacotroneo)
+- Current maintainers: [Scaler Tech](https://github.com/scaler-tech)
+- [All Contributors](https://github.com/scaler-tech/laravel-saml2/contributors)
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
-
-[ico-version]: https://poser.pugx.org/24slides/laravel-saml2/v/stable?format=flat-square
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/24Slides/laravel-saml2.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/24slides/laravel-saml2.svg?style=flat-square
-[ico-code-coverage]: https://img.shields.io/scrutinizer/coverage/g/24slides/laravel-saml2.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/24slides/laravel-saml2.svg?style=flat-square
-
-[link-packagist]: https://packagist.org/packages/24slides/laravel-saml2
-[link-travis]: https://travis-ci.org/24Slides/laravel-saml2
-[link-scrutinizer]: https://scrutinizer-ci.com/g/24slides/laravel-saml2/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/24slides/laravel-saml2
-[link-code-coverage]: https://scrutinizer-ci.com/g/24Slides/laravel-saml2
-[link-downloads]: https://packagist.org/packages/24slides/laravel-saml2
-[link-original-author]: https://github.com/aacotroneo
-[link-author]: https://github.com/brezzhnev
-[link-contributors]: ../../contributors
+The MIT License (MIT). Please see [LICENSE](LICENSE) for more information.
