@@ -1,0 +1,44 @@
+name: Prepare PHP Environment
+description: 'Prepare PHP Environment'
+inputs:
+  PHP_VERSION:
+    description: 'required php version'
+    required: true
+  PHP_EXTENSIONS:
+    description: 'required php extensions'
+    required: false
+    default: 'opcache'
+  PHP_INI_VALUES:
+    description: 'php ini config'
+    required: false
+    default: 'error_reporting=E_ALL'
+  PHP_TOOLS:
+    description: 'php-tools to install'
+    required: false
+    default: 'composer:v2'
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup PHP cache environment
+      id: cache-php-extensions
+      uses: shivammathur/cache-extensions@v1
+      with:
+        php-version: ${{ inputs.PHP_VERSION }}
+        extensions: ${{ inputs.PHP_EXTENSIONS }}
+        key: php-extensions-${{ runner.os }}-${{ inputs.PHP_VERSION }}-${{ github.workflow }}
+
+    - name: Cache PHP extensions
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.cache-php-extensions.outputs.dir }}
+        key: ${{ steps.cache-php-extensions.outputs.key }}
+        restore-keys: ${{ steps.cache-php-extensions.outputs.key }}
+
+    - name: Setup PHP Action
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ inputs.PHP_VERSION }}
+        extensions: ${{ inputs.PHP_EXTENSIONS }}
+        coverage: none
+        ini-values: ${{ inputs.PHP_INI_VALUES }}
+        tools: ${{ inputs.PHP_TOOLS }}
