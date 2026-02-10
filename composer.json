@@ -49,6 +49,11 @@
             "src/helpers.php"
         ]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Slides\\Saml2\\Tests\\": "tests/"
+        }
+    },
     "extra": {
         "branch-aliases": {
             "dev-master": "2.4.x-dev"

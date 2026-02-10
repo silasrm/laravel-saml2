@@ -27,4 +27,23 @@ class ConsoleHelperTest extends TestCase
             ConsoleHelper::stringToArray('value1,value2,value3')
         );
     }
+
+    public function testArrayToString()
+    {
+        static::assertSame('', ConsoleHelper::arrayToString([]));
+        static::assertSame('one,two,three', ConsoleHelper::arrayToString(['one', 'two', 'three']));
+        static::assertSame('item1:value1,item2:value2', ConsoleHelper::arrayToString([
+            'item1' => 'value1',
+            'item2' => 'value2',
+        ]));
+    }
+
+    public function testArrayToStringSkipsNestedArrays()
+    {
+        static::assertSame('item1:value1,item3:value3', ConsoleHelper::arrayToString([
+            'item1' => 'value1',
+            'item2' => ['nested' => 'skip-me'],
+            'item3' => 'value3',
+        ]));
+    }
 }
