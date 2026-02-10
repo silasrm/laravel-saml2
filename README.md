@@ -110,6 +110,7 @@ You can easily manage tenants using the following console commands:
 - `artisan saml2:tenant-credentials`
 
 > To learn their options, run a command with `-h` parameter.
+> `saml2:update-tenant` keeps existing `name_id_format` unless `--nameIdFormat` is explicitly provided.
 
 Each Tenant has the following attributes:
 
@@ -129,7 +130,7 @@ The following routes are registered by default:
 - `GET saml2/{uuid}/logout`
 - `GET saml2/{uuid}/metadata`
 - `POST saml2/{uuid}/acs`
-- `GET saml2/{uuid}/sls`
+- `GET|POST saml2/{uuid}/sls`
 
 You may disable them by setting `saml2.useRoutes` to `false`.
 
