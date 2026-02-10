@@ -27,6 +27,7 @@ return [
     | GET    | {routesPrefix}/{uuid}/logout    | saml.logout
     | GET    | {routesPrefix}/{uuid}/metadata  | saml.metadata
     | GET    | {routesPrefix}/{uuid}/sls       | saml.sls
+    | POST   | {routesPrefix}/{uuid}/sls       | saml.sls
     |
     */
 
