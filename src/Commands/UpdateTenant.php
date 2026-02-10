@@ -25,7 +25,7 @@ class UpdateTenant extends \Illuminate\Console\Command
                             { --loginUrl= : IdP Sign on URL }
                             { --logoutUrl= : IdP Logout URL }
                             { --relayStateUrl= : Redirection URL after successful login }
-                            { --nameIdFormat= : Name ID Format ("persistent" by default) }
+                            { --nameIdFormat= : Name ID Format (preserves current value unless passed) }
                             { --x509cert= : x509 certificate (base64) }
                             { --metadata= : A custom metadata }';
 
