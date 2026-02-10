@@ -42,4 +42,11 @@ class FakeQueryBuilder
 
         return $this->result;
     }
+
+    public function first()
+    {
+        $this->calls[] = ['first'];
+
+        return $this->result;
+    }
 }

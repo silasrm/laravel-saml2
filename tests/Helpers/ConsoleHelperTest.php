@@ -46,4 +46,12 @@ class ConsoleHelperTest extends TestCase
             'item3' => 'value3',
         ]));
     }
+
+    public function testStringToArraySupportsCustomDelimiters()
+    {
+        static::assertSame(
+            ['item1' => 'value1', 'item2' => 'value2'],
+            ConsoleHelper::stringToArray('item1=value1;item2=value2', '=', ';')
+        );
+    }
 }
