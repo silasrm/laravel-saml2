@@ -46,7 +46,10 @@ class AuthFlowIntegrationTest extends TestCase
         $response = $this->get("/saml2/{$tenant->uuid}/metadata");
 
         $response->assertOk();
-        $response->assertHeader('Content-Type', 'text/xml; charset=utf-8');
+        $this->assertSame(
+            'text/xml; charset=utf-8',
+            strtolower((string) $response->headers->get('Content-Type'))
+        );
         $response->assertSee('<xml>metadata</xml>', false);
         $response->assertSessionHas('saml2.tenant.uuid', $tenant->uuid);
     }
