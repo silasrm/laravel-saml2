@@ -17,6 +17,16 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected $defer = false;
 
     /**
+     * Register package services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->mergeConfigFrom(__DIR__ . '/../config/saml2.php', 'saml2');
+    }
+
+    /**
      * Bootstrap the application events.
      *
      * @return void
@@ -37,7 +47,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     protected function bootRoutes()
     {
-        if($this->app['config']['saml2.useRoutes'] == true) {
+        if (config('saml2.useRoutes', true) == true) {
             include __DIR__ . '/Http/routes.php';
         }
     }
@@ -52,7 +62,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $source = __DIR__ . '/../config/saml2.php';
 
         $this->publishes([$source => config_path('saml2.php')]);
-        $this->mergeConfigFrom($source, 'saml2');
     }
 
     /**

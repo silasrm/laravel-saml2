@@ -36,7 +36,8 @@
     },
     "require-dev": {
         "mockery/mockery": "^1.6",
-        "phpunit/phpunit": "^11.5"
+        "phpunit/phpunit": "^10.5 || ^11.5",
+        "orchestra/testbench": "^8.0 || ^9.0 || ^10.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -62,5 +63,8 @@
                 "Slides\\Saml2\\ServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "test": "@php vendor/bin/phpunit"
     }
 }

@@ -13,8 +13,12 @@
     failOnWarning="true"
 >
     <testsuites>
-        <testsuite name="Package Test Suite">
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Unit">
             <directory suffix="Test.php">./tests/</directory>
+            <exclude>./tests/Feature</exclude>
         </testsuite>
     </testsuites>
 
@@ -31,6 +35,8 @@
     </source>
 
     <php>
+        <env name="APP_KEY" value="base64:Vf8YQV7Xg1/Ss3zN2SvNFWf3rySg3vfReki3k4S2k4A="/>
+        <env name="DB_CONNECTION" value="testing"/>
         <ini name="assert.exception" value="1"/>
         <ini name="error_reporting" value="-1"/>
         <ini name="xdebug.show_exception_trace" value="0"/>
