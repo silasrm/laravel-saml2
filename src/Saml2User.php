@@ -27,6 +27,13 @@ class Saml2User
     protected $tenant;
 
     /**
+     * Parsed SAML attributes mapped by property name.
+     *
+     * @var array<string, array|null>
+     */
+    protected $parsedAttributes = [];
+
+    /**
      * Saml2User constructor.
      *
      * @param OneLoginAuth $auth
@@ -126,7 +133,10 @@ class Saml2User
             return $this->getAttribute($samlAttribute);
         }
 
-        return $this->{$propertyName} = $this->getAttribute($samlAttribute);
+        $value = $this->getAttribute($samlAttribute);
+        $this->parsedAttributes[$propertyName] = $value;
+
+        return $value;
     }
 
     /**
@@ -183,5 +193,29 @@ class Saml2User
     public function getTenant()
     {
         return $this->tenant;
+    }
+
+    /**
+     * Read parsed attribute values as virtual properties (for backward compatibility).
+     *
+     * @param string $name
+     *
+     * @return array|null
+     */
+    public function __get($name)
+    {
+        return $this->parsedAttributes[$name] ?? null;
+    }
+
+    /**
+     * Determine whether a parsed attribute exists for a virtual property.
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        return array_key_exists($name, $this->parsedAttributes);
     }
 }
