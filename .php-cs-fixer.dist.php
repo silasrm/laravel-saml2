@@ -46,12 +46,8 @@ return $config
         Fixer\NoUselessParenthesisFixer::name() => true,
         // The strlen or mb_strlen functions should not be compared against 0.
         Fixer\NoUselessStrlenFixer::name() => true,
-        // Generic array style should be used in PHPDoc.
-        Fixer\PhpdocArrayStyleFixer::name() => true,
         // There must be no superfluous parameters in PHPDoc.
         Fixer\PhpdocNoSuperfluousParamFixer::name() => true,
-        // The @param annotations must be in the same order as the function parameters.
-        Fixer\PhpdocParamOrderFixer::name() => true,
         // The @var annotations must be on a single line if they are the only content.
         Fixer\PhpdocSingleLineVarFixer::name() => true,
         // PHPDoc types must be trimmed.
@@ -72,12 +68,12 @@ return $config
             ->ignoreVCS(true)
             ->ignoreUnreadableDirs()
             ->in([
+                __DIR__ . '/config',
+                __DIR__ . '/database',
                 __DIR__ . '/src',
                 __DIR__ . '/tests',
-                __DIR__ . '/updater',
             ])
             ->append([
                 __DIR__ . '/.php-cs-fixer.dist.php',
-                __DIR__ . '/rector.php',
             ])
     );
