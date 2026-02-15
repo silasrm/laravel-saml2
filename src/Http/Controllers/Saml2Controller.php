@@ -2,11 +2,11 @@
 
 namespace Slides\Saml2\Http\Controllers;
 
-use Slides\Saml2\Events\SignedIn;
-use Slides\Saml2\Auth;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use OneLogin\Saml2\Error as OneLoginError;
+use Slides\Saml2\Auth;
+use Slides\Saml2\Events\SignedIn;
 
 /**
  * Class Saml2Controller

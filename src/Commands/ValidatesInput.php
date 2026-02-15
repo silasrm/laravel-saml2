@@ -38,7 +38,7 @@ trait ValidatesInput
      *
      * See https://docs.oracle.com/cd/E19316-01/820-3886/6nfcvtepi/index.html
      *
-     * @return array|string[]
+     * @return array|array<string>
      */
     protected function supportedNameIdFormats(): array
     {

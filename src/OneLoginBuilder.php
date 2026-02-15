@@ -2,12 +2,12 @@
 
 namespace Slides\Saml2;
 
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\URL;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 use OneLogin\Saml2\Utils as OneLoginUtils;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Contracts\Container\Container;
 use Slides\Saml2\Models\Tenant;
-use Illuminate\Support\Arr;
 
 /**
  * Class OneLoginBuilder

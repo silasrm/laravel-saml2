@@ -2,8 +2,8 @@
 
 namespace Slides\Saml2\Commands;
 
-use Slides\Saml2\Models\Tenant;
 use Illuminate\Support\Str;
+use Slides\Saml2\Models\Tenant;
 
 /**
  * Class CreateTenant
@@ -19,7 +19,7 @@ trait RendersTenants
      */
     protected function renderTenants($tenants, ?string $title = null)
     {
-        /** @var \Illuminate\Database\Eloquent\Collection|Tenant[] $tenants */
+        /** @var array<Tenant>|\Illuminate\Database\Eloquent\Collection $tenants */
         $tenants = $tenants instanceof Tenant
             ? collect([$tenants])
             : $tenants;

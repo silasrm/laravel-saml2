@@ -33,7 +33,7 @@ class TenantRepository
      *
      * @param bool $withTrashed whether need to include safely deleted records
      *
-     * @return \Illuminate\Database\Eloquent\Collection|Tenant[]
+     * @return array<Tenant>|\Illuminate\Database\Eloquent\Collection
      */
     public function all(bool $withTrashed = true)
     {
@@ -46,7 +46,7 @@ class TenantRepository
      * @param int|string $key         ID, key or UUID
      * @param bool       $withTrashed whether need to include safely deleted records
      *
-     * @return \Illuminate\Database\Eloquent\Collection|Tenant[]
+     * @return array<Tenant>|\Illuminate\Database\Eloquent\Collection
      */
     public function findByAnyIdentifier($key, bool $withTrashed = true)
     {

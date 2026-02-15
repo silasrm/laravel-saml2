@@ -17,7 +17,7 @@ class FakeUpdatableTenant extends Tenant
     /** @var string */
     public $name_id_format = 'unspecified';
 
-    /** @var array[] */
+    /** @var array<array> */
     public $updates = [];
 
     /** @var int */

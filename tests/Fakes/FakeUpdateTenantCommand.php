@@ -16,10 +16,10 @@ class FakeUpdateTenantCommand extends UpdateTenant
     /** @var array */
     private $options;
 
-    /** @var string[] */
+    /** @var array<string> */
     public $errors = [];
 
-    /** @var string[] */
+    /** @var array<string> */
     public $infos = [];
 
     public $lastRenderedTenant;

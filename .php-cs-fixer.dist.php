@@ -61,6 +61,14 @@ return $config
         // Calls to `PHPUnit\Framework\TestCase` static methods must all be of the same type, either `$this->`, `self::` or `static::`.
         'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
         'php_unit_strict' => false,
+        // Sort union types and intersection types using configured order.
+        'ordered_types' => ['null_adjustment' => 'always_last'],
+        // Ordering use statements by type and in alphabetical order.
+        'ordered_imports' => ['imports_order' => ['class', 'function', 'const'], 'sort_algorithm' => 'alpha'],
+        // PHPDoc `array<T>` type must be used instead of `T[]`.
+        'phpdoc_array_type' => true,
+        // No alias PHPDoc tags should be used.
+        'phpdoc_no_alias_tag' => ['replacements' => ['const' => 'var', 'type' => 'var', 'link' => 'see']],
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()

@@ -2,8 +2,8 @@
 
 namespace Slides\Saml2\Events;
 
-use Slides\Saml2\Saml2User;
 use Slides\Saml2\Auth;
+use Slides\Saml2\Saml2User;
 
 /**
  * Class LoggedIn
