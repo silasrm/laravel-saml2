@@ -8,21 +8,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Tenant
  *
- * @property int $id
- * @property string $uuid
- * @property string $key
- * @property string $idp_entity_id
- * @property string $idp_login_url
- * @property string $idp_logout_url
- * @property string $idp_x509_cert
- * @property string $relay_state_url
- * @property string $name_id_format
- * @property array $metadata
+ * @property int            $id
+ * @property string         $uuid
+ * @property string         $key
+ * @property string         $idp_entity_id
+ * @property string         $idp_login_url
+ * @property string         $idp_logout_url
+ * @property string         $idp_x509_cert
+ * @property string         $relay_state_url
+ * @property string         $name_id_format
+ * @property array          $metadata
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
- *
- * @package Slides\Saml2\Models
  */
 class Tenant extends Model
 {
@@ -49,7 +47,7 @@ class Tenant extends Model
         'idp_x509_cert',
         'relay_state_url',
         'name_id_format',
-        'metadata'
+        'metadata',
     ];
 
     /**
@@ -58,6 +56,6 @@ class Tenant extends Model
      * @var array
      */
     protected $casts = [
-        'metadata' => 'array'
+        'metadata' => 'array',
     ];
 }

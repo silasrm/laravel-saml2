@@ -1,11 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Slides\Saml2\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
-use Mockery;
 use Slides\Saml2\Auth;
 use Slides\Saml2\Events\SignedIn;
 use Slides\Saml2\Models\Tenant;
@@ -14,6 +15,11 @@ use Slides\Saml2\Saml2User;
 use Slides\Saml2\Tests\Fakes\FakeOneLoginBuilder;
 use Slides\Saml2\Tests\TestCase;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class AuthFlowIntegrationTest extends TestCase
 {
     use RefreshDatabase;
@@ -29,7 +35,7 @@ class AuthFlowIntegrationTest extends TestCase
 
     protected function tearDown(): void
     {
-        Mockery::close();
+        \Mockery::close();
 
         parent::tearDown();
     }
@@ -38,7 +44,7 @@ class AuthFlowIntegrationTest extends TestCase
     {
         $tenant = Tenant::query()->create($this->tenantAttributes());
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = \Mockery::mock(Auth::class);
         $auth->shouldReceive('getMetadata')->once()->andReturn('<xml>metadata</xml>');
 
         $this->app->instance('saml2.test.auth', $auth);
@@ -46,9 +52,9 @@ class AuthFlowIntegrationTest extends TestCase
         $response = $this->get("/saml2/{$tenant->uuid}/metadata");
 
         $response->assertOk();
-        $this->assertSame(
+        self::assertSame(
             'text/xml; charset=utf-8',
-            strtolower((string) $response->headers->get('Content-Type'))
+            strtolower((string) $response->headers->get('Content-Type')),
         );
         $response->assertSee('<xml>metadata</xml>', false);
         $response->assertSessionHas('saml2.tenant.uuid', $tenant->uuid);
@@ -76,10 +82,10 @@ class AuthFlowIntegrationTest extends TestCase
         Event::fake([SignedIn::class]);
 
         $tenant = Tenant::query()->create($this->tenantAttributes());
-        $samlUser = Mockery::mock(Saml2User::class);
+        $samlUser = \Mockery::mock(Saml2User::class);
         $samlUser->shouldReceive('getIntendedUrl')->once()->andReturn('https://app.test/intended');
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = \Mockery::mock(Auth::class);
         $auth->shouldReceive('acs')->once()->andReturn([]);
         $auth->shouldReceive('getSaml2User')->once()->andReturn($samlUser);
 
@@ -101,10 +107,10 @@ class AuthFlowIntegrationTest extends TestCase
         $tenant = Tenant::query()->create($this->tenantAttributes([
             'relay_state_url' => '/tenant/home',
         ]));
-        $samlUser = Mockery::mock(Saml2User::class);
+        $samlUser = \Mockery::mock(Saml2User::class);
         $samlUser->shouldReceive('getIntendedUrl')->once()->andReturn(null);
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = \Mockery::mock(Auth::class);
         $auth->shouldReceive('acs')->once()->andReturn([]);
         $auth->shouldReceive('getSaml2User')->once()->andReturn($samlUser);
         $auth->shouldReceive('getTenant')->once()->andReturn($tenant);
@@ -125,10 +131,10 @@ class AuthFlowIntegrationTest extends TestCase
         ]));
         config(['saml2.loginRoute' => '/configured/home']);
 
-        $samlUser = Mockery::mock(Saml2User::class);
+        $samlUser = \Mockery::mock(Saml2User::class);
         $samlUser->shouldReceive('getIntendedUrl')->once()->andReturn(null);
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = \Mockery::mock(Auth::class);
         $auth->shouldReceive('acs')->once()->andReturn([]);
         $auth->shouldReceive('getSaml2User')->once()->andReturn($samlUser);
         $auth->shouldReceive('getTenant')->once()->andReturn($tenant);
@@ -149,7 +155,7 @@ class AuthFlowIntegrationTest extends TestCase
             'saml2.loginRoute' => '/login',
         ]);
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = \Mockery::mock(Auth::class);
         $auth->shouldReceive('acs')->once()->andReturn(['invalid_response']);
         $auth->shouldReceive('getLastErrorReason')->once()->andReturn('signature_validation_failed');
         $auth->shouldReceive('getTenant')->once()->andReturn($tenant);
@@ -171,7 +177,7 @@ class AuthFlowIntegrationTest extends TestCase
 
         config(['saml2.loginRoute' => '/configured/home']);
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = \Mockery::mock(Auth::class);
         $auth->shouldReceive('getTenant')->once()->andReturn($tenant);
         $auth->shouldReceive('login')->once()->with('/tenant/home');
 
@@ -190,7 +196,7 @@ class AuthFlowIntegrationTest extends TestCase
 
         config(['saml2.loginRoute' => '/configured/home']);
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = \Mockery::mock(Auth::class);
         $auth->shouldReceive('getTenant')->once()->andReturn($tenant);
         $auth->shouldReceive('login')->once()->with('/configured/home');
 
@@ -208,7 +214,7 @@ class AuthFlowIntegrationTest extends TestCase
         ]));
         config(['saml2.loginRoute' => '/configured/home']);
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = \Mockery::mock(Auth::class);
         $auth->shouldReceive('getTenant')->once()->andReturn($tenant);
         $auth->shouldReceive('login')->once()->with('/explicit/return-to');
 
@@ -223,17 +229,17 @@ class AuthFlowIntegrationTest extends TestCase
     {
         $tenant = Tenant::query()->create($this->tenantAttributes());
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = \Mockery::mock(Auth::class);
         $auth->shouldReceive('logout')->once()->with(
             '/after-logout',
             'name-id-123',
-            'session-index-456'
+            'session-index-456',
         );
 
         $this->app->instance('saml2.test.auth', $auth);
 
         $response = $this->get(
-            "/saml2/{$tenant->uuid}/logout?returnTo=/after-logout&nameId=name-id-123&sessionIndex=session-index-456"
+            "/saml2/{$tenant->uuid}/logout?returnTo=/after-logout&nameId=name-id-123&sessionIndex=session-index-456",
         );
 
         $response->assertOk();
@@ -245,7 +251,7 @@ class AuthFlowIntegrationTest extends TestCase
 
         config(['saml2.logoutRoute' => '/signed-out']);
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = \Mockery::mock(Auth::class);
         $auth->shouldReceive('sls')->once()->with(false)->andReturn([]);
 
         $this->app->instance('saml2.test.auth', $auth);
@@ -264,7 +270,7 @@ class AuthFlowIntegrationTest extends TestCase
             'saml2.retrieveParametersFromServer' => true,
         ]);
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = \Mockery::mock(Auth::class);
         $auth->shouldReceive('sls')->once()->with(true)->andReturn([]);
 
         $this->app->instance('saml2.test.auth', $auth);
@@ -283,7 +289,7 @@ class AuthFlowIntegrationTest extends TestCase
             'saml2.logoutRoute' => '/signed-out',
         ]);
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = \Mockery::mock(Auth::class);
         $auth->shouldReceive('sls')->once()->with(false)->andReturn(['logout_error']);
         $auth->shouldReceive('getLastErrorReason')->once()->andReturn('logout_validation_failed');
         $auth->shouldReceive('getTenant')->once()->andReturn($tenant);

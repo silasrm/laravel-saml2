@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Slides\Saml2\Tests;
 
@@ -6,6 +8,11 @@ use PHPUnit\Framework\TestCase;
 use Slides\Saml2\Auth;
 use Slides\Saml2\Events\SignedIn;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class SignedInEventTest extends TestCase
 {
     public function tearDown(): void
@@ -21,10 +28,9 @@ class SignedInEventTest extends TestCase
 
         $event = new SignedIn($user, $auth);
 
-        $this->assertSame($auth, $event->auth);
-        $this->assertSame($user, $event->user);
-        $this->assertSame($auth, $event->getAuth());
-        $this->assertSame($user, $event->getSaml2User());
+        self::assertSame($auth, $event->auth);
+        self::assertSame($user, $event->user);
+        self::assertSame($auth, $event->getAuth());
+        self::assertSame($user, $event->getSaml2User());
     }
 }
-

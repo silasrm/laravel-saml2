@@ -10,15 +10,11 @@ use OneLogin\Saml2\Error as OneLoginError;
 
 /**
  * Class Saml2Controller
- *
- * @package Slides\Saml2\Http\Controllers
  */
 class Saml2Controller extends Controller
 {
     /**
      * Render the metadata.
-     *
-     * @param Auth $auth
      *
      * @return \Illuminate\Support\Facades\Response
      *
@@ -35,8 +31,6 @@ class Saml2Controller extends Controller
      * Process the SAML Response sent by the IdP.
      *
      * Fires "SignedIn" event if a valid user is found.
-     *
-     * @param Auth $auth
      *
      * @return \Illuminate\Support\Facades\Redirect
      *
@@ -59,7 +53,7 @@ class Saml2Controller extends Controller
 
             return $this->redirectToConfiguredUrl(
                 config('saml2.errorRoute'),
-                config('saml2.loginRoute')
+                config('saml2.loginRoute'),
             );
         }
 
@@ -74,7 +68,7 @@ class Saml2Controller extends Controller
         }
 
         return $this->redirectToConfiguredUrl(
-            $auth->getTenant()->relay_state_url ?: config('saml2.loginRoute')
+            $auth->getTenant()->relay_state_url ?: config('saml2.loginRoute'),
         );
     }
 
@@ -84,8 +78,6 @@ class Saml2Controller extends Controller
      * Fires 'saml2.logoutRequestReceived' event if its valid.
      *
      * This means the user logged out of the SSO infrastructure, you 'should' log him out locally too.
-     *
-     * @param Auth $auth
      *
      * @return \Illuminate\Support\Facades\Redirect
      *
@@ -108,11 +100,11 @@ class Saml2Controller extends Controller
 
             return $this->redirectToConfiguredUrl(
                 config('saml2.errorRoute'),
-                config('saml2.logoutRoute')
+                config('saml2.logoutRoute'),
             );
         }
 
-        return $this->redirectToConfiguredUrl(config('saml2.logoutRoute')); //may be set a configurable default
+        return $this->redirectToConfiguredUrl(config('saml2.logoutRoute')); // may be set a configurable default
     }
 
     /**
@@ -132,7 +124,6 @@ class Saml2Controller extends Controller
      * Initiate a login request.
      *
      * @param Illuminate\Http\Request $request
-     * @param Auth $auth
      *
      * @return void
      *
@@ -149,7 +140,6 @@ class Saml2Controller extends Controller
      * Initiate a logout request.
      *
      * @param Illuminate\Http\Request $request
-     * @param Auth $auth
      *
      * @return void
      *
@@ -160,7 +150,7 @@ class Saml2Controller extends Controller
         $auth->logout(
             $request->query('returnTo'),
             $request->query('nameId'),
-            $request->query('sessionIndex')
+            $request->query('sessionIndex'),
         );
     }
 }

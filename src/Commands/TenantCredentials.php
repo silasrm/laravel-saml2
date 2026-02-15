@@ -2,13 +2,10 @@
 
 namespace Slides\Saml2\Commands;
 
-use Slides\Saml2\Helpers\ConsoleHelper;
 use Slides\Saml2\Repositories\TenantRepository;
 
 /**
  * Class TenantCredentials
- *
- * @package Slides\Saml2\Commands
  */
 class TenantCredentials extends \Illuminate\Console\Command
 {
@@ -28,15 +25,11 @@ class TenantCredentials extends \Illuminate\Console\Command
      */
     protected $description = 'List tenant credentials for IdP';
 
-    /**
-     * @var TenantRepository
-     */
+    /** @var TenantRepository */
     protected $tenants;
 
     /**
      * DeleteTenant constructor.
-     *
-     * @param TenantRepository $tenants
      */
     public function __construct(TenantRepository $tenants)
     {
@@ -52,8 +45,9 @@ class TenantCredentials extends \Illuminate\Console\Command
      */
     public function handle()
     {
-        if(!$tenant = $this->tenants->findById($this->argument('id'))) {
+        if (!$tenant = $this->tenants->findById($this->argument('id'))) {
             $this->error('Cannot find a tenant #' . $this->argument('id'));
+
             return;
         }
 

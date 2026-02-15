@@ -4,8 +4,6 @@ namespace Slides\Saml2;
 
 /**
  * Class ServiceProvider
- *
- * @package Slides\Saml2
  */
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -72,12 +70,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function bootCommands()
     {
         $this->commands([
-            \Slides\Saml2\Commands\CreateTenant::class,
-            \Slides\Saml2\Commands\UpdateTenant::class,
-            \Slides\Saml2\Commands\DeleteTenant::class,
-            \Slides\Saml2\Commands\RestoreTenant::class,
-            \Slides\Saml2\Commands\ListTenants::class,
-            \Slides\Saml2\Commands\TenantCredentials::class
+            Commands\CreateTenant::class,
+            Commands\UpdateTenant::class,
+            Commands\DeleteTenant::class,
+            Commands\RestoreTenant::class,
+            Commands\ListTenants::class,
+            Commands\TenantCredentials::class,
         ]);
     }
 
@@ -88,7 +86,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     protected function bootMiddleware()
     {
-        $this->app['router']->aliasMiddleware('saml2.resolveTenant', \Slides\Saml2\Http\Middleware\ResolveTenant::class);
+        $this->app['router']->aliasMiddleware('saml2.resolveTenant', Http\Middleware\ResolveTenant::class);
     }
 
     /**

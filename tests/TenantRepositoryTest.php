@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Slides\Saml2\Tests;
 
@@ -6,6 +8,11 @@ use PHPUnit\Framework\TestCase;
 use Slides\Saml2\Tests\Fakes\FakeQueryBuilder;
 use Slides\Saml2\Tests\Fakes\FakeTenantRepository;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class TenantRepositoryTest extends TestCase
 {
     public function testAllUsesWithTrashedByDefault(): void
@@ -15,9 +22,9 @@ class TenantRepositoryTest extends TestCase
 
         $result = $repository->all();
 
-        $this->assertSame(['tenant-one', 'tenant-two'], $result);
-        $this->assertTrue($repository->lastWithTrashed);
-        $this->assertSame([
+        self::assertSame(['tenant-one', 'tenant-two'], $result);
+        self::assertTrue($repository->lastWithTrashed);
+        self::assertSame([
             ['get'],
         ], $builder->calls);
     }
@@ -29,9 +36,9 @@ class TenantRepositoryTest extends TestCase
 
         $result = $repository->findByAnyIdentifier(10, true);
 
-        $this->assertSame(['tenant-id-10'], $result);
-        $this->assertTrue($repository->lastWithTrashed);
-        $this->assertSame([
+        self::assertSame(['tenant-id-10'], $result);
+        self::assertTrue($repository->lastWithTrashed);
+        self::assertSame([
             ['where', 'id', 10],
             ['get'],
         ], $builder->calls);
@@ -44,9 +51,9 @@ class TenantRepositoryTest extends TestCase
 
         $result = $repository->findByAnyIdentifier('acme', false);
 
-        $this->assertSame(['tenant-acme'], $result);
-        $this->assertFalse($repository->lastWithTrashed);
-        $this->assertSame([
+        self::assertSame(['tenant-acme'], $result);
+        self::assertFalse($repository->lastWithTrashed);
+        self::assertSame([
             ['where', 'key', 'acme'],
             ['orWhere', 'uuid', 'acme'],
             ['get'],
@@ -60,9 +67,9 @@ class TenantRepositoryTest extends TestCase
 
         $result = $repository->findByKey('acme', false);
 
-        $this->assertSame('tenant-by-key', $result);
-        $this->assertFalse($repository->lastWithTrashed);
-        $this->assertSame([
+        self::assertSame('tenant-by-key', $result);
+        self::assertFalse($repository->lastWithTrashed);
+        self::assertSame([
             ['where', 'key', 'acme'],
             ['first'],
         ], $builder->calls);
@@ -75,9 +82,9 @@ class TenantRepositoryTest extends TestCase
 
         $result = $repository->findById(11);
 
-        $this->assertSame('tenant-by-id', $result);
-        $this->assertTrue($repository->lastWithTrashed);
-        $this->assertSame([
+        self::assertSame('tenant-by-id', $result);
+        self::assertTrue($repository->lastWithTrashed);
+        self::assertSame([
             ['where', 'id', 11],
             ['first'],
         ], $builder->calls);
@@ -90,9 +97,9 @@ class TenantRepositoryTest extends TestCase
 
         $result = $repository->findByUUID('tenant-uuid', false);
 
-        $this->assertSame('tenant-by-uuid', $result);
-        $this->assertFalse($repository->lastWithTrashed);
-        $this->assertSame([
+        self::assertSame('tenant-by-uuid', $result);
+        self::assertFalse($repository->lastWithTrashed);
+        self::assertSame([
             ['where', 'uuid', 'tenant-uuid'],
             ['first'],
         ], $builder->calls);

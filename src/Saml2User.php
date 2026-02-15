@@ -7,8 +7,6 @@ use Slides\Saml2\Models\Tenant;
 
 /**
  * Class Saml2User
- *
- * @package Slides\Saml2
  */
 class Saml2User
 {
@@ -35,9 +33,6 @@ class Saml2User
 
     /**
      * Saml2User constructor.
-     *
-     * @param OneLoginAuth $auth
-     * @param Tenant $tenant
      */
     public function __construct(OneLoginAuth $auth, Tenant $tenant)
     {
@@ -68,15 +63,15 @@ class Saml2User
     /**
      * Returns the requested SAML attribute
      *
-     * @param string $name The requested attribute of the user.
+     * @param string $name the requested attribute of the user
      *
-     * @return array|null Requested SAML attribute ($name).
+     * @return array|null requested SAML attribute ($name)
      */
     public function getAttribute($name)
     {
         return $this->auth->getAttribute($name);
     }
-    
+
     /**
      * The attributes retrieved from assertion processed this request.
      *
@@ -94,13 +89,11 @@ class Saml2User
      */
     public function getRawSamlAssertion()
     {
-        return app('request')->input('SAMLResponse'); //just this request
+        return app('request')->input('SAMLResponse'); // just this request
     }
 
     /**
      * Get the intended URL.
-     *
-     * @return mixed
      */
     public function getIntendedUrl()
     {
@@ -125,11 +118,11 @@ class Saml2User
      */
     public function parseUserAttribute($samlAttribute = null, $propertyName = null)
     {
-        if(empty($samlAttribute)) {
+        if (empty($samlAttribute)) {
             return null;
         }
 
-        if(empty($propertyName)) {
+        if (empty($propertyName)) {
             return $this->getAttribute($samlAttribute);
         }
 
@@ -148,7 +141,7 @@ class Saml2User
      */
     public function parseAttributes($attributes = [])
     {
-        foreach($attributes as $propertyName => $samlAttribute) {
+        foreach ($attributes as $propertyName => $samlAttribute) {
             $this->parseUserAttribute($samlAttribute, $propertyName);
         }
     }
@@ -156,7 +149,7 @@ class Saml2User
     /**
      * Get user's session index.
      *
-     * @return null|string
+     * @return string|null
      */
     public function getSessionIndex()
     {
@@ -175,8 +168,6 @@ class Saml2User
 
     /**
      * Set a tenant
-     *
-     * @param Tenant $tenant
      *
      * @return void
      */

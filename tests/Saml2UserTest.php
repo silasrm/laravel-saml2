@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Slides\Saml2\Tests;
 
@@ -6,6 +8,11 @@ use PHPUnit\Framework\TestCase;
 use Slides\Saml2\Models\Tenant;
 use Slides\Saml2\Saml2User;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class Saml2UserTest extends TestCase
 {
     public function tearDown(): void
@@ -20,7 +27,7 @@ class Saml2UserTest extends TestCase
 
         $user = new Saml2User($oneLoginAuth, new Tenant());
 
-        $this->assertSame('user-id-1', $user->getUserId());
+        self::assertSame('user-id-1', $user->getUserId());
     }
 
     public function testGetNameIdDelegatesToBaseAuth(): void
@@ -30,7 +37,7 @@ class Saml2UserTest extends TestCase
 
         $user = new Saml2User($oneLoginAuth, new Tenant());
 
-        $this->assertSame('name-id-1', $user->getNameId());
+        self::assertSame('name-id-1', $user->getNameId());
     }
 
     public function testGetAttributesDelegatesToBaseAuth(): void
@@ -41,7 +48,7 @@ class Saml2UserTest extends TestCase
 
         $user = new Saml2User($oneLoginAuth, new Tenant());
 
-        $this->assertSame($attributes, $user->getAttributes());
+        self::assertSame($attributes, $user->getAttributes());
     }
 
     public function testGetAttributesWithFriendlyNameDelegatesToBaseAuth(): void
@@ -52,7 +59,7 @@ class Saml2UserTest extends TestCase
 
         $user = new Saml2User($oneLoginAuth, new Tenant());
 
-        $this->assertSame($attributes, $user->getAttributesWithFriendlyName());
+        self::assertSame($attributes, $user->getAttributesWithFriendlyName());
     }
 
     public function testGetAttributeDelegatesToBaseAuth(): void
@@ -65,9 +72,9 @@ class Saml2UserTest extends TestCase
 
         $user = new Saml2User($oneLoginAuth, new Tenant());
 
-        $this->assertSame(
+        self::assertSame(
             ['user@example.com'],
-            $user->getAttribute('urn:oid:0.9.2342.19200300.100.1.3')
+            $user->getAttribute('urn:oid:0.9.2342.19200300.100.1.3'),
         );
     }
 
@@ -76,8 +83,8 @@ class Saml2UserTest extends TestCase
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $user = new Saml2User($oneLoginAuth, new Tenant());
 
-        $this->assertNull($user->parseUserAttribute());
-        $this->assertNull($user->parseUserAttribute(''));
+        self::assertNull($user->parseUserAttribute());
+        self::assertNull($user->parseUserAttribute(''));
     }
 
     public function testParseUserAttributeReturnsValueWhenPropertyNameIsMissing(): void
@@ -90,9 +97,9 @@ class Saml2UserTest extends TestCase
 
         $user = new Saml2User($oneLoginAuth, new Tenant());
 
-        $this->assertSame(
+        self::assertSame(
             ['user@example.com'],
-            $user->parseUserAttribute('urn:oid:0.9.2342.19200300.100.1.3')
+            $user->parseUserAttribute('urn:oid:0.9.2342.19200300.100.1.3'),
         );
     }
 
@@ -107,8 +114,8 @@ class Saml2UserTest extends TestCase
         $user = new Saml2User($oneLoginAuth, new Tenant());
         $user->parseUserAttribute('urn:oid:0.9.2342.19200300.100.1.3', 'email');
 
-        $this->assertSame(['user@example.com'], $user->email);
-        $this->assertTrue(isset($user->email));
+        self::assertSame(['user@example.com'], $user->email);
+        self::assertTrue(isset($user->email));
     }
 
     public function testParseAttributesStoresMultipleVirtualProperties(): void
@@ -124,8 +131,8 @@ class Saml2UserTest extends TestCase
             'displayName' => 'urn:oid:2.16.840.1.113730.3.1.241',
         ]);
 
-        $this->assertSame(['user@example.com'], $user->email);
-        $this->assertSame(['Test User'], $user->displayName);
+        self::assertSame(['user@example.com'], $user->email);
+        self::assertSame(['Test User'], $user->displayName);
     }
 
     public function testGetSessionIndexDelegatesToBaseAuth(): void
@@ -135,7 +142,7 @@ class Saml2UserTest extends TestCase
 
         $user = new Saml2User($oneLoginAuth, new Tenant());
 
-        $this->assertSame('session-index-1', $user->getSessionIndex());
+        self::assertSame('session-index-1', $user->getSessionIndex());
     }
 
     public function testSetTenantUpdatesResolvedTenant(): void
@@ -148,7 +155,7 @@ class Saml2UserTest extends TestCase
         $user = new Saml2User($oneLoginAuth, $initialTenant);
         $user->setTenant($updatedTenant);
 
-        $this->assertSame($updatedTenant, $user->getTenant());
-        $this->assertSame('tenant-uuid-3', $user->getTenant()->uuid);
+        self::assertSame($updatedTenant, $user->getTenant());
+        self::assertSame('tenant-uuid-3', $user->getTenant()->uuid);
     }
 }

@@ -6,15 +6,13 @@ use Slides\Saml2\Models\Tenant;
 
 /**
  * Class TenantRepository
- *
- * @package Slides\Saml2\Repositories
  */
 class TenantRepository
 {
     /**
      * Create a new query.
      *
-     * @param bool $withTrashed Whether need to include safely deleted records.
+     * @param bool $withTrashed whether need to include safely deleted records
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -23,7 +21,7 @@ class TenantRepository
         $class = config('saml2.tenantModel', Tenant::class);
         $query = $class::query();
 
-        if($withTrashed) {
+        if ($withTrashed) {
             $query->withTrashed();
         }
 
@@ -33,9 +31,9 @@ class TenantRepository
     /**
      * Find all tenants.
      *
-     * @param bool $withTrashed Whether need to include safely deleted records.
+     * @param bool $withTrashed whether need to include safely deleted records
      *
-     * @return Tenant[]|\Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Collection|Tenant[]
      */
     public function all(bool $withTrashed = true)
     {
@@ -45,10 +43,10 @@ class TenantRepository
     /**
      * Find a tenant by any identifier.
      *
-     * @param int|string $key ID, key or UUID
-     * @param bool $withTrashed Whether need to include safely deleted records.
+     * @param int|string $key         ID, key or UUID
+     * @param bool       $withTrashed whether need to include safely deleted records
      *
-     * @return Tenant[]|\Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Collection|Tenant[]
      */
     public function findByAnyIdentifier($key, bool $withTrashed = true)
     {
@@ -66,10 +64,7 @@ class TenantRepository
     /**
      * Find a tenant by the key.
      *
-     * @param string $key
-     * @param bool $withTrashed
-     *
-     * @return Tenant|\Illuminate\Database\Eloquent\Model|null
+     * @return \Illuminate\Database\Eloquent\Model|Tenant|null
      */
     public function findByKey(string $key, bool $withTrashed = true)
     {
@@ -81,10 +76,7 @@ class TenantRepository
     /**
      * Find a tenant by ID.
      *
-     * @param int $id
-     * @param bool $withTrashed
-     *
-     * @return Tenant|\Illuminate\Database\Eloquent\Model|null
+     * @return \Illuminate\Database\Eloquent\Model|Tenant|null
      */
     public function findById(int $id, bool $withTrashed = true)
     {
@@ -97,9 +89,8 @@ class TenantRepository
      * Find a tenant by UUID.
      *
      * @param int $uuid
-     * @param bool $withTrashed
      *
-     * @return Tenant|\Illuminate\Database\Eloquent\Model|null
+     * @return \Illuminate\Database\Eloquent\Model|Tenant|null
      */
     public function findByUUID(string $uuid, bool $withTrashed = true)
     {

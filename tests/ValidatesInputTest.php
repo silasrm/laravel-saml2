@@ -1,10 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Slides\Saml2\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Slides\Saml2\Tests\Fakes\FakeValidatesInputCommand;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class ValidatesInputTest extends TestCase
 {
     public function testResolveNameIdFormatReturnsOptionWhenSupported(): void
@@ -13,8 +20,8 @@ class ValidatesInputTest extends TestCase
 
         $resolved = $command->resolve();
 
-        $this->assertSame('unspecified', $resolved);
-        $this->assertNull($command->lastErrorMessage);
+        self::assertSame('unspecified', $resolved);
+        self::assertNull($command->lastErrorMessage);
     }
 
     public function testResolveNameIdFormatReturnsDefaultPersistentWhenOptionMissing(): void
@@ -23,8 +30,8 @@ class ValidatesInputTest extends TestCase
 
         $resolved = $command->resolve();
 
-        $this->assertSame('persistent', $resolved);
-        $this->assertNull($command->lastErrorMessage);
+        self::assertSame('persistent', $resolved);
+        self::assertNull($command->lastErrorMessage);
     }
 
     public function testResolveNameIdFormatReturnsNullWhenOptionIsInvalid(): void
@@ -33,9 +40,9 @@ class ValidatesInputTest extends TestCase
 
         $resolved = $command->resolve();
 
-        $this->assertNull($resolved);
-        $this->assertStringContainsString('Name ID format is invalid', (string) $command->lastErrorMessage);
-        $this->assertStringContainsString('persistent', (string) $command->lastErrorMessage);
+        self::assertNull($resolved);
+        self::assertStringContainsString('Name ID format is invalid', (string) $command->lastErrorMessage);
+        self::assertStringContainsString('persistent', (string) $command->lastErrorMessage);
     }
 
     public function testResolveNameIdFormatUsesProvidedOptionName(): void
@@ -44,7 +51,7 @@ class ValidatesInputTest extends TestCase
 
         $resolved = $command->resolveFromOption('format');
 
-        $this->assertSame('transient', $resolved);
-        $this->assertNull($command->lastErrorMessage);
+        self::assertSame('transient', $resolved);
+        self::assertNull($command->lastErrorMessage);
     }
 }

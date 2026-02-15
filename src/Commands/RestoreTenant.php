@@ -6,8 +6,6 @@ use Slides\Saml2\Repositories\TenantRepository;
 
 /**
  * Class RestoreTenant
- *
- * @package Slides\Saml2\Commands
  */
 class RestoreTenant extends \Illuminate\Console\Command
 {
@@ -27,15 +25,11 @@ class RestoreTenant extends \Illuminate\Console\Command
      */
     protected $description = 'Restore a tenant by ID';
 
-    /**
-     * @var TenantRepository
-     */
+    /** @var TenantRepository */
     protected $tenants;
 
     /**
      * DeleteTenant constructor.
-     *
-     * @param TenantRepository $tenants
      */
     public function __construct(TenantRepository $tenants)
     {
@@ -51,14 +45,15 @@ class RestoreTenant extends \Illuminate\Console\Command
      */
     public function handle()
     {
-        if(!$tenant = $this->tenants->findById($this->argument('id'))) {
+        if (!$tenant = $this->tenants->findById($this->argument('id'))) {
             $this->error('Cannot find a tenant #' . $this->argument('id'));
+
             return;
         }
 
         $this->renderTenants($tenant, 'Found a deleted tenant');
 
-        if(!$this->confirm('Would you like to restore it?')) {
+        if (!$this->confirm('Would you like to restore it?')) {
             return;
         }
 

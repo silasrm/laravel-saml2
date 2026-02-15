@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Slides\Saml2\Tests\Feature;
 
@@ -7,6 +9,11 @@ use Illuminate\Support\Str;
 use Slides\Saml2\Models\Tenant;
 use Slides\Saml2\Tests\TestCase;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class TenantCommandsIntegrationTest extends TestCase
 {
     use RefreshDatabase;
@@ -24,10 +31,10 @@ class TenantCommandsIntegrationTest extends TestCase
 
         $tenant = Tenant::query()->where('key', 'acme')->first();
 
-        $this->assertNotNull($tenant);
-        $this->assertSame('https://idp.example.com/entity', $tenant->idp_entity_id);
-        $this->assertSame('persistent', $tenant->name_id_format);
-        $this->assertSame(['team' => 'core', 'region' => 'us'], $tenant->metadata);
+        self::assertNotNull($tenant);
+        self::assertSame('https://idp.example.com/entity', $tenant->idp_entity_id);
+        self::assertSame('persistent', $tenant->name_id_format);
+        self::assertSame(['team' => 'core', 'region' => 'us'], $tenant->metadata);
     }
 
     public function testUpdateTenantCommandPreservesAndUpdatesNameIdFormat(): void
@@ -42,8 +49,8 @@ class TenantCommandsIntegrationTest extends TestCase
         ])->assertExitCode(0);
 
         $tenant->refresh();
-        $this->assertSame('unspecified', $tenant->name_id_format);
-        $this->assertSame('UPDATED_CERT', $tenant->idp_x509_cert);
+        self::assertSame('unspecified', $tenant->name_id_format);
+        self::assertSame('UPDATED_CERT', $tenant->idp_x509_cert);
 
         $this->artisan('saml2:update-tenant', [
             'id' => $tenant->id,
@@ -51,7 +58,7 @@ class TenantCommandsIntegrationTest extends TestCase
         ])->assertExitCode(0);
 
         $tenant->refresh();
-        $this->assertSame('transient', $tenant->name_id_format);
+        self::assertSame('transient', $tenant->name_id_format);
     }
 
     /**

@@ -1,18 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Slides\Saml2\Tests\Fakes;
 
 use Illuminate\Contracts\Container\Container;
-use RuntimeException;
 use Slides\Saml2\Auth as SamlAuth;
 use Slides\Saml2\Models\Tenant;
 use Slides\Saml2\OneLoginBuilder;
 
 class FakeOneLoginBuilder extends OneLoginBuilder
 {
-    /**
-     * @var Tenant|null
-     */
+    /** @var Tenant|null */
     protected $tenant;
 
     public function __construct(Container $app)
@@ -22,8 +21,6 @@ class FakeOneLoginBuilder extends OneLoginBuilder
 
     /**
      * Set a tenant.
-     *
-     * @param Tenant $tenant
      *
      * @return $this
      */
@@ -42,13 +39,13 @@ class FakeOneLoginBuilder extends OneLoginBuilder
     public function bootstrap()
     {
         if (!$this->app->bound('saml2.test.auth')) {
-            throw new RuntimeException('Missing [saml2.test.auth] binding for FakeOneLoginBuilder.');
+            throw new \RuntimeException('Missing [saml2.test.auth] binding for FakeOneLoginBuilder.');
         }
 
         /** @var SamlAuth $auth */
         $auth = $this->app->make('saml2.test.auth');
 
         $this->app->instance(SamlAuth::class, $auth);
-        $this->app->instance('Slides\\Saml2\\Auth', $auth);
+        $this->app->instance('Slides\Saml2\Auth', $auth);
     }
 }
