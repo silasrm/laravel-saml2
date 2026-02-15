@@ -8,7 +8,7 @@ use Slides\Saml2\Tests\Fakes\FakeTenantRepository;
 
 class TenantRepositoryTest extends TestCase
 {
-    public function testAllUsesWithTrashedByDefault()
+    public function testAllUsesWithTrashedByDefault(): void
     {
         $builder = new FakeQueryBuilder(['tenant-one', 'tenant-two']);
         $repository = new FakeTenantRepository($builder);
@@ -22,7 +22,7 @@ class TenantRepositoryTest extends TestCase
         ], $builder->calls);
     }
 
-    public function testFindByAnyIdentifierUsesIdForIntegerInput()
+    public function testFindByAnyIdentifierUsesIdForIntegerInput(): void
     {
         $builder = new FakeQueryBuilder(['tenant-id-10']);
         $repository = new FakeTenantRepository($builder);
@@ -37,7 +37,7 @@ class TenantRepositoryTest extends TestCase
         ], $builder->calls);
     }
 
-    public function testFindByAnyIdentifierUsesKeyAndUuidForStringInput()
+    public function testFindByAnyIdentifierUsesKeyAndUuidForStringInput(): void
     {
         $builder = new FakeQueryBuilder(['tenant-acme']);
         $repository = new FakeTenantRepository($builder);
@@ -53,7 +53,7 @@ class TenantRepositoryTest extends TestCase
         ], $builder->calls);
     }
 
-    public function testFindByKeyUsesFirstResult()
+    public function testFindByKeyUsesFirstResult(): void
     {
         $builder = new FakeQueryBuilder('tenant-by-key');
         $repository = new FakeTenantRepository($builder);
@@ -68,7 +68,7 @@ class TenantRepositoryTest extends TestCase
         ], $builder->calls);
     }
 
-    public function testFindByIdUsesFirstResult()
+    public function testFindByIdUsesFirstResult(): void
     {
         $builder = new FakeQueryBuilder('tenant-by-id');
         $repository = new FakeTenantRepository($builder);
@@ -83,7 +83,7 @@ class TenantRepositoryTest extends TestCase
         ], $builder->calls);
     }
 
-    public function testFindByUUIDUsesFirstResult()
+    public function testFindByUUIDUsesFirstResult(): void
     {
         $builder = new FakeQueryBuilder('tenant-by-uuid');
         $repository = new FakeTenantRepository($builder);

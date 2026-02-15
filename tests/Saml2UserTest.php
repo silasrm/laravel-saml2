@@ -13,7 +13,7 @@ class Saml2UserTest extends TestCase
         \Mockery::close();
     }
 
-    public function testGetUserIdDelegatesToBaseAuth()
+    public function testGetUserIdDelegatesToBaseAuth(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $oneLoginAuth->shouldReceive('getNameId')->once()->andReturn('user-id-1');
@@ -23,7 +23,7 @@ class Saml2UserTest extends TestCase
         $this->assertSame('user-id-1', $user->getUserId());
     }
 
-    public function testGetNameIdDelegatesToBaseAuth()
+    public function testGetNameIdDelegatesToBaseAuth(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $oneLoginAuth->shouldReceive('getNameId')->once()->andReturn('name-id-1');
@@ -33,7 +33,7 @@ class Saml2UserTest extends TestCase
         $this->assertSame('name-id-1', $user->getNameId());
     }
 
-    public function testGetAttributesDelegatesToBaseAuth()
+    public function testGetAttributesDelegatesToBaseAuth(): void
     {
         $attributes = ['email' => ['user@example.com']];
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
@@ -44,7 +44,7 @@ class Saml2UserTest extends TestCase
         $this->assertSame($attributes, $user->getAttributes());
     }
 
-    public function testGetAttributesWithFriendlyNameDelegatesToBaseAuth()
+    public function testGetAttributesWithFriendlyNameDelegatesToBaseAuth(): void
     {
         $attributes = ['EmailAddress' => ['user@example.com']];
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
@@ -55,7 +55,7 @@ class Saml2UserTest extends TestCase
         $this->assertSame($attributes, $user->getAttributesWithFriendlyName());
     }
 
-    public function testGetAttributeDelegatesToBaseAuth()
+    public function testGetAttributeDelegatesToBaseAuth(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $oneLoginAuth->shouldReceive('getAttribute')
@@ -71,7 +71,7 @@ class Saml2UserTest extends TestCase
         );
     }
 
-    public function testParseUserAttributeReturnsNullWhenAttributeIsEmpty()
+    public function testParseUserAttributeReturnsNullWhenAttributeIsEmpty(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $user = new Saml2User($oneLoginAuth, new Tenant());
@@ -80,7 +80,7 @@ class Saml2UserTest extends TestCase
         $this->assertNull($user->parseUserAttribute(''));
     }
 
-    public function testParseUserAttributeReturnsValueWhenPropertyNameIsMissing()
+    public function testParseUserAttributeReturnsValueWhenPropertyNameIsMissing(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $oneLoginAuth->shouldReceive('getAttribute')
@@ -96,7 +96,7 @@ class Saml2UserTest extends TestCase
         );
     }
 
-    public function testParseUserAttributeStoresResolvedValueAsVirtualProperty()
+    public function testParseUserAttributeStoresResolvedValueAsVirtualProperty(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $oneLoginAuth->shouldReceive('getAttribute')
@@ -111,7 +111,7 @@ class Saml2UserTest extends TestCase
         $this->assertTrue(isset($user->email));
     }
 
-    public function testParseAttributesStoresMultipleVirtualProperties()
+    public function testParseAttributesStoresMultipleVirtualProperties(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $oneLoginAuth->shouldReceive('getAttribute')
@@ -128,7 +128,7 @@ class Saml2UserTest extends TestCase
         $this->assertSame(['Test User'], $user->displayName);
     }
 
-    public function testGetSessionIndexDelegatesToBaseAuth()
+    public function testGetSessionIndexDelegatesToBaseAuth(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $oneLoginAuth->shouldReceive('getSessionIndex')->once()->andReturn('session-index-1');
@@ -138,7 +138,7 @@ class Saml2UserTest extends TestCase
         $this->assertSame('session-index-1', $user->getSessionIndex());
     }
 
-    public function testSetTenantUpdatesResolvedTenant()
+    public function testSetTenantUpdatesResolvedTenant(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $initialTenant = new Tenant();

@@ -7,7 +7,7 @@ use Slides\Saml2\Tests\Fakes\FakeValidatesInputCommand;
 
 class ValidatesInputTest extends TestCase
 {
-    public function testResolveNameIdFormatReturnsOptionWhenSupported()
+    public function testResolveNameIdFormatReturnsOptionWhenSupported(): void
     {
         $command = new FakeValidatesInputCommand(['nameIdFormat' => 'unspecified']);
 
@@ -17,7 +17,7 @@ class ValidatesInputTest extends TestCase
         $this->assertNull($command->lastErrorMessage);
     }
 
-    public function testResolveNameIdFormatReturnsDefaultPersistentWhenOptionMissing()
+    public function testResolveNameIdFormatReturnsDefaultPersistentWhenOptionMissing(): void
     {
         $command = new FakeValidatesInputCommand();
 
@@ -27,7 +27,7 @@ class ValidatesInputTest extends TestCase
         $this->assertNull($command->lastErrorMessage);
     }
 
-    public function testResolveNameIdFormatReturnsNullWhenOptionIsInvalid()
+    public function testResolveNameIdFormatReturnsNullWhenOptionIsInvalid(): void
     {
         $command = new FakeValidatesInputCommand(['nameIdFormat' => 'invalid-format']);
 
@@ -38,7 +38,7 @@ class ValidatesInputTest extends TestCase
         $this->assertStringContainsString('persistent', (string) $command->lastErrorMessage);
     }
 
-    public function testResolveNameIdFormatUsesProvidedOptionName()
+    public function testResolveNameIdFormatUsesProvidedOptionName(): void
     {
         $command = new FakeValidatesInputCommand(['format' => 'transient']);
 

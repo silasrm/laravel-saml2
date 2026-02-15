@@ -14,7 +14,7 @@ class UpdateTenantCommandTest extends TestCase
         \Mockery::close();
     }
 
-    public function testHandlePreservesExistingNameIdFormatWhenOptionIsMissing()
+    public function testHandlePreservesExistingNameIdFormatWhenOptionIsMissing(): void
     {
         $tenant = new FakeUpdatableTenant();
         $tenants = \Mockery::mock(TenantRepository::class);
@@ -36,7 +36,7 @@ class UpdateTenantCommandTest extends TestCase
         $this->assertEmpty($command->errors);
     }
 
-    public function testHandleUpdatesNameIdFormatWhenOptionIsProvided()
+    public function testHandleUpdatesNameIdFormatWhenOptionIsProvided(): void
     {
         $tenant = new FakeUpdatableTenant();
         $tenants = \Mockery::mock(TenantRepository::class);
@@ -58,7 +58,7 @@ class UpdateTenantCommandTest extends TestCase
         $this->assertEmpty($command->errors);
     }
 
-    public function testHandleDoesNotUpdateTenantWhenNameIdFormatIsInvalid()
+    public function testHandleDoesNotUpdateTenantWhenNameIdFormatIsInvalid(): void
     {
         $tenant = new FakeUpdatableTenant();
         $tenants = \Mockery::mock(TenantRepository::class);

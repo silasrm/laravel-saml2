@@ -11,7 +11,7 @@ class TenantCommandsIntegrationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testCreateTenantCommandPersistsTenant()
+    public function testCreateTenantCommandPersistsTenant(): void
     {
         $this->artisan('saml2:create-tenant', [
             '--key' => 'acme',
@@ -30,7 +30,7 @@ class TenantCommandsIntegrationTest extends TestCase
         $this->assertSame(['team' => 'core', 'region' => 'us'], $tenant->metadata);
     }
 
-    public function testUpdateTenantCommandPreservesAndUpdatesNameIdFormat()
+    public function testUpdateTenantCommandPreservesAndUpdatesNameIdFormat(): void
     {
         $tenant = Tenant::query()->create($this->tenantAttributes([
             'name_id_format' => 'unspecified',

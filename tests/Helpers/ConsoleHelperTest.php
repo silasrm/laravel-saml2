@@ -7,7 +7,7 @@ use Slides\Saml2\Helpers\ConsoleHelper;
 
 class ConsoleHelperTest extends TestCase
 {
-    public function testStringToArray()
+    public function testStringToArray(): void
     {
         static::assertEquals([], ConsoleHelper::stringToArray(''));
         static::assertEquals([], ConsoleHelper::stringToArray(null));
@@ -28,7 +28,7 @@ class ConsoleHelperTest extends TestCase
         );
     }
 
-    public function testArrayToString()
+    public function testArrayToString(): void
     {
         static::assertSame('', ConsoleHelper::arrayToString([]));
         static::assertSame('one,two,three', ConsoleHelper::arrayToString(['one', 'two', 'three']));
@@ -38,7 +38,7 @@ class ConsoleHelperTest extends TestCase
         ]));
     }
 
-    public function testArrayToStringSkipsNestedArrays()
+    public function testArrayToStringSkipsNestedArrays(): void
     {
         static::assertSame('item1:value1,item3:value3', ConsoleHelper::arrayToString([
             'item1' => 'value1',
@@ -47,7 +47,7 @@ class ConsoleHelperTest extends TestCase
         ]));
     }
 
-    public function testStringToArraySupportsCustomDelimiters()
+    public function testStringToArraySupportsCustomDelimiters(): void
     {
         static::assertSame(
             ['item1' => 'value1', 'item2' => 'value2'],

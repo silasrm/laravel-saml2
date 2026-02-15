@@ -13,7 +13,7 @@ class SignedInEventTest extends TestCase
         \Mockery::close();
     }
 
-    public function testEventExposesAuthAndUserViaPropertiesAndGetters()
+    public function testEventExposesAuthAndUserViaPropertiesAndGetters(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $auth = new Auth($oneLoginAuth, new \Slides\Saml2\Models\Tenant());
