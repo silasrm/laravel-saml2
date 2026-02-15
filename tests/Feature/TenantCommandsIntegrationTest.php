@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Slides\Saml2\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Str;
+use Slides\Saml2\Helpers\Uuid;
 use Slides\Saml2\Models\Tenant;
 use Slides\Saml2\Tests\TestCase;
 
@@ -33,6 +33,10 @@ class TenantCommandsIntegrationTest extends TestCase
         self::assertSame('https://idp.example.com/entity', $tenant->idp_entity_id);
         self::assertSame('persistent', $tenant->name_id_format);
         self::assertSame(['team' => 'core', 'region' => 'us'], $tenant->metadata);
+        self::assertMatchesRegularExpression(
+            '/^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/',
+            $tenant->uuid,
+        );
     }
 
     public function testUpdateTenantCommandPreservesAndUpdatesNameIdFormat(): void
@@ -67,7 +71,7 @@ class TenantCommandsIntegrationTest extends TestCase
     private function tenantAttributes(array $overrides = []): array
     {
         return array_merge([
-            'uuid' => (string) Str::uuid(),
+            'uuid' => Uuid::uuid7(),
             'key' => 'tenant-key',
             'idp_entity_id' => 'https://idp.example.com/entity',
             'idp_login_url' => 'https://idp.example.com/login',

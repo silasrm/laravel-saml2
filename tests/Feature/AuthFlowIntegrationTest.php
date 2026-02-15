@@ -6,9 +6,9 @@ namespace Slides\Saml2\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Str;
 use Slides\Saml2\Auth;
 use Slides\Saml2\Events\SignedIn;
+use Slides\Saml2\Helpers\Uuid;
 use Slides\Saml2\Models\Tenant;
 use Slides\Saml2\OneLoginBuilder;
 use Slides\Saml2\Saml2User;
@@ -309,7 +309,7 @@ class AuthFlowIntegrationTest extends TestCase
     private function tenantAttributes(array $overrides = []): array
     {
         return array_merge([
-            'uuid' => (string) Str::uuid(),
+            'uuid' => Uuid::uuid7(),
             'key' => 'tenant-key',
             'idp_entity_id' => 'https://idp.example.com/entity',
             'idp_login_url' => 'https://idp.example.com/login',
