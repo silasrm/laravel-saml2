@@ -55,6 +55,22 @@ class Saml2UserTest extends TestCase
         $this->assertSame($attributes, $user->getAttributesWithFriendlyName());
     }
 
+    public function testGetAttributeDelegatesToBaseAuth()
+    {
+        $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
+        $oneLoginAuth->shouldReceive('getAttribute')
+            ->once()
+            ->with('urn:oid:0.9.2342.19200300.100.1.3')
+            ->andReturn(['user@example.com']);
+
+        $user = new Saml2User($oneLoginAuth, new Tenant());
+
+        $this->assertSame(
+            ['user@example.com'],
+            $user->getAttribute('urn:oid:0.9.2342.19200300.100.1.3')
+        );
+    }
+
     public function testParseUserAttributeReturnsNullWhenAttributeIsEmpty()
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
@@ -78,6 +94,38 @@ class Saml2UserTest extends TestCase
             ['user@example.com'],
             $user->parseUserAttribute('urn:oid:0.9.2342.19200300.100.1.3')
         );
+    }
+
+    public function testParseUserAttributeStoresResolvedValueAsVirtualProperty()
+    {
+        $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
+        $oneLoginAuth->shouldReceive('getAttribute')
+            ->once()
+            ->with('urn:oid:0.9.2342.19200300.100.1.3')
+            ->andReturn(['user@example.com']);
+
+        $user = new Saml2User($oneLoginAuth, new Tenant());
+        $user->parseUserAttribute('urn:oid:0.9.2342.19200300.100.1.3', 'email');
+
+        $this->assertSame(['user@example.com'], $user->email);
+        $this->assertTrue(isset($user->email));
+    }
+
+    public function testParseAttributesStoresMultipleVirtualProperties()
+    {
+        $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
+        $oneLoginAuth->shouldReceive('getAttribute')
+            ->twice()
+            ->andReturn(['user@example.com'], ['Test User']);
+
+        $user = new Saml2User($oneLoginAuth, new Tenant());
+        $user->parseAttributes([
+            'email' => 'urn:oid:0.9.2342.19200300.100.1.3',
+            'displayName' => 'urn:oid:2.16.840.1.113730.3.1.241',
+        ]);
+
+        $this->assertSame(['user@example.com'], $user->email);
+        $this->assertSame(['Test User'], $user->displayName);
     }
 
     public function testGetSessionIndexDelegatesToBaseAuth()

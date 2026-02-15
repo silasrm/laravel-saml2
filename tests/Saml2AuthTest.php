@@ -21,7 +21,7 @@ class Saml2AuthTest extends TestCase
 
         $oneLoginAuth->shouldReceive('isAuthenticated')->andReturn(true);
 
-        $this->assertEquals(true, $saml2Auth->isAuthenticated());
+        $this->assertTrue($saml2Auth->isAuthenticated());
     }
 
     public function testLogin()
@@ -132,7 +132,7 @@ class Saml2AuthTest extends TestCase
 
         $error =  $saml2Auth->acs();
 
-        $this->assertEmpty($error);
+        $this->assertNull($error);
     }
 
     public function testSlsError()
@@ -145,11 +145,11 @@ class Saml2AuthTest extends TestCase
             false,
             \Mockery::type('callable')
         );
-        $oneLoginAuth->shouldReceive('getErrors')->once()->andReturn('errors');
+        $oneLoginAuth->shouldReceive('getErrors')->once()->andReturn(['errors']);
 
         $error =  $saml2Auth->sls();
 
-        $this->assertSame('errors', $error);
+        $this->assertSame(['errors'], $error);
     }
 
     public function testSlsOK()
@@ -242,19 +242,6 @@ class Saml2AuthTest extends TestCase
         $this->assertSame('https://idp.example.com/logout-request', $result);
     }
 
-    public function testGetUserAttribute() {
-        $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
-        $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
-
-        $user = $saml2Auth->getSaml2User();
-
-        $oneLoginAuth->shouldReceive('getAttribute')
-            ->with('urn:oid:0.9.2342.19200300.100.1.3')
-            ->andReturn(['test@example.com']);
-
-        $this->assertEquals(['test@example.com'], $user->getAttribute('urn:oid:0.9.2342.19200300.100.1.3'));
-    }
-
     public function testGetSaml2UserKeepsResolvedTenant()
     {
         $tenant = new Tenant();
@@ -266,40 +253,6 @@ class Saml2AuthTest extends TestCase
 
         $this->assertSame($tenant, $user->getTenant());
         $this->assertSame('tenant-uuid-1', $user->getTenant()->uuid);
-    }
-
-    public function testParseSingleUserAttribute() {
-        $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
-        $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
-
-        $user = $saml2Auth->getSaml2User();
-
-        $oneLoginAuth->shouldReceive('getAttribute')
-            ->with('urn:oid:0.9.2342.19200300.100.1.3')
-            ->andReturn(['test@example.com']);
-
-        $user->parseUserAttribute('urn:oid:0.9.2342.19200300.100.1.3', 'email');
-
-        $this->assertSame(['test@example.com'], $user->email);
-    }
-
-    public function testParseMultipleUserAttributes() {
-        $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
-        $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
-
-        $user = $saml2Auth->getSaml2User();
-
-        $oneLoginAuth->shouldReceive('getAttribute')
-            ->twice()
-            ->andReturn(['test@example.com'], ['Test User']);
-
-        $user->parseAttributes([
-            'email' => 'urn:oid:0.9.2342.19200300.100.1.3',
-            'displayName' => 'urn:oid:2.16.840.1.113730.3.1.241'
-        ]);
-
-        $this->assertSame(['test@example.com'], $user->email);
-        $this->assertSame(['Test User'], $user->displayName);
     }
 
     public function testGetMetadataReturnsMetadataWhenValid()
@@ -334,18 +287,6 @@ class Saml2AuthTest extends TestCase
         $this->expectExceptionMessage('Invalid SP metadata: missing NameID');
 
         $saml2Auth->getMetadata();
-    }
-
-    /**
-     * Mock the authentication handler.
-     *
-     * @return Auth|\Mockery\MockInterface
-     */
-    protected function mockAuth()
-    {
-        $auth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
-
-        return new Auth($auth, $this->mockTenant());
     }
 
     /**
