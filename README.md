@@ -9,8 +9,7 @@ This package turns your application into Service Provider with the support of mu
 
 ## Requirements
 
-- Laravel 5.5+
-- PHP version support depends on the package version (see Versioning Policy below)
+- Laravel and PHP version support depends on the package version (see Versioning Policy below)
 
 ## Getting Started
 
