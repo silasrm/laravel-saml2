@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Slides\Saml2\Tests\Feature;
 
