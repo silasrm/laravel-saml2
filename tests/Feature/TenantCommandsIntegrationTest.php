@@ -11,8 +11,6 @@ use Slides\Saml2\Tests\TestCase;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class TenantCommandsIntegrationTest extends TestCase
 {

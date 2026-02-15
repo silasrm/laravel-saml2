@@ -12,8 +12,6 @@ use Slides\Saml2\Tests\TestCase;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class ServiceProviderIntegrationTest extends TestCase
 {

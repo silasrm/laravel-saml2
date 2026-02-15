@@ -10,8 +10,6 @@ use Slides\Saml2\Tests\Fakes\FakeTenantRepository;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class TenantRepositoryTest extends TestCase
 {

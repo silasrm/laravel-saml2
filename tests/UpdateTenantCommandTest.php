@@ -11,8 +11,6 @@ use Slides\Saml2\Tests\Fakes\FakeUpdateTenantCommand;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class UpdateTenantCommandTest extends TestCase
 {

@@ -61,6 +61,7 @@ return $config
         // Calls to `PHPUnit\Framework\TestCase` static methods must all be of the same type, either `$this->`, `self::` or `static::`.
         'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
         'php_unit_strict' => false,
+        'php_unit_test_class_requires_covers' => false,
         // Sort union types and intersection types using configured order.
         'ordered_types' => ['null_adjustment' => 'always_last'],
         // Ordering use statements by type and in alphabetical order.

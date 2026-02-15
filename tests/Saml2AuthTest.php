@@ -11,8 +11,6 @@ use Slides\Saml2\Models\Tenant;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class Saml2AuthTest extends TestCase
 {

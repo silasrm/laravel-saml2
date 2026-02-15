@@ -9,8 +9,6 @@ use Slides\Saml2\Helpers\ConsoleHelper;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class ConsoleHelperTest extends TestCase
 {

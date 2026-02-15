@@ -9,8 +9,6 @@ use Slides\Saml2\Tests\Fakes\FakeValidatesInputCommand;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class ValidatesInputTest extends TestCase
 {

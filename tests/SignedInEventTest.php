@@ -10,8 +10,6 @@ use Slides\Saml2\Events\SignedIn;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class SignedInEventTest extends TestCase
 {

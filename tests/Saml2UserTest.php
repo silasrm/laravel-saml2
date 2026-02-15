@@ -10,8 +10,6 @@ use Slides\Saml2\Saml2User;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class Saml2UserTest extends TestCase
 {
