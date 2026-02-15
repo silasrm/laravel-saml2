@@ -1,19 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Slides\Saml2\Tests\Fakes;
 
 use Slides\Saml2\Repositories\TenantRepository;
 
 class FakeTenantRepository extends TenantRepository
 {
-    /**
-     * @var FakeQueryBuilder
-     */
+    /** @var FakeQueryBuilder */
     private $builder;
 
-    /**
-     * @var bool|null
-     */
+    /** @var bool|null */
     public $lastWithTrashed;
 
     public function __construct(FakeQueryBuilder $builder)

@@ -8,12 +8,11 @@ use Slides\Saml2\Repositories\TenantRepository;
 
 /**
  * Class CreateTenant
- *
- * @package Slides\Saml2\Commands
  */
 class CreateTenant extends \Illuminate\Console\Command
 {
-    use RendersTenants, ValidatesInput;
+    use RendersTenants;
+    use ValidatesInput;
 
     /**
      * The name and signature of the console command.
@@ -37,15 +36,11 @@ class CreateTenant extends \Illuminate\Console\Command
      */
     protected $description = 'Create a Tenant entity (relying identity provider)';
 
-    /**
-     * @var TenantRepository
-     */
+    /** @var TenantRepository */
     protected $tenants;
 
     /**
      * DeleteTenant constructor.
-     *
-     * @param TenantRepository $tenants
      */
     public function __construct(TenantRepository $tenants)
     {
@@ -63,32 +58,36 @@ class CreateTenant extends \Illuminate\Console\Command
     {
         if (!$entityId = $this->option('entityId')) {
             $this->error('Entity ID must be passed as an option --entityId');
+
             return;
         }
 
         if (!$loginUrl = $this->option('loginUrl')) {
             $this->error('Login URL must be passed as an option --loginUrl');
+
             return;
         }
 
         if (!$logoutUrl = $this->option('logoutUrl')) {
             $this->error('Logout URL must be passed as an option --logoutUrl');
+
             return;
         }
 
         if (!$x509cert = $this->option('x509cert')) {
             $this->error('x509 certificate (base64) must be passed as an option --x509cert');
+
             return;
         }
 
         $key = $this->option('key');
         $metadata = ConsoleHelper::stringToArray($this->option('metadata'));
 
-        if($key && ($tenant = $this->tenants->findByKey($key))) {
+        if ($key && ($tenant = $this->tenants->findByKey($key))) {
             $this->renderTenants($tenant, 'Already found tenant(s) using this key');
             $this->error(
                 'Cannot create a tenant because the key is already being associated with other tenants.'
-                    . PHP_EOL . 'Firstly, delete tenant(s) or try to create with another with another key.'
+                    . PHP_EOL . 'Firstly, delete tenant(s) or try to create with another with another key.',
             );
 
             return;
@@ -107,8 +106,9 @@ class CreateTenant extends \Illuminate\Console\Command
             'metadata' => $metadata,
         ]);
 
-        if(!$tenant->save()) {
+        if (!$tenant->save()) {
             $this->error('Tenant cannot be saved.');
+
             return;
         }
 

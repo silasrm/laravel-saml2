@@ -6,8 +6,6 @@ use Slides\Saml2\Repositories\TenantRepository;
 
 /**
  * Class ListTenants
- *
- * @package Slides\Saml2\Commands
  */
 class ListTenants extends \Illuminate\Console\Command
 {
@@ -27,15 +25,11 @@ class ListTenants extends \Illuminate\Console\Command
      */
     protected $description = 'List all the tenants';
 
-    /**
-     * @var TenantRepository
-     */
+    /** @var TenantRepository */
     protected $tenants;
 
     /**
      * DeleteTenant constructor.
-     *
-     * @param TenantRepository $tenants
      */
     public function __construct(TenantRepository $tenants)
     {
@@ -53,8 +47,9 @@ class ListTenants extends \Illuminate\Console\Command
     {
         $tenants = $this->tenants->all();
 
-        if($tenants->isEmpty()) {
+        if ($tenants->isEmpty()) {
             $this->info('No tenants found');
+
             return;
         }
 

@@ -10,7 +10,7 @@ This package turns your application into Service Provider with the support of mu
 ## Requirements
 
 - Laravel 5.5+
-- PHP 7.1+
+- PHP version support depends on the package version (see Versioning Policy below)
 
 ## Getting Started
 
@@ -51,7 +51,12 @@ composer update scaler-tech/laravel-saml2 --with-all-dependencies
 
 ### Versioning Policy
 
-- Use `2.5.x` for legacy compatibility with the archived package while we continue supporting modern Laravel versions on this line.
+- `2.x` is legacy-supported and does not introduce breaking changes.
+- `2.5.x` supports PHP `7.0` through `8.5`.
+- `2.5.x` supports Laravel `5.5` through `12.x`.
+- Versions greater than `2.7.x` require PHP `8.2` or newer.
+- Versions greater than `2.7.x` support Laravel `9.x` through `12.x`.
+- It is safe to migrate within `2.x` as long as your PHP and Laravel versions are supported.
 - `3.x` is currently in development and will include breaking changes, so it will not be backwards compatible with the older package line.
 
 ### Installing

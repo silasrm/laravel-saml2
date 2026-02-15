@@ -18,26 +18,112 @@ concurrency:
 
 jobs:
   phpunit-tests:
-    name: PHPUnit Tests - PHP v${{ matrix.PHP_VERSION }}
+    name: PHPUnit - Laravel ${{ matrix.laravel }} / PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     if: ${{ !(github.event.pull_request.draft || startsWith(github.head_ref, 'code-style-fix/')) }}
     strategy:
       fail-fast: false
       matrix:
-        PHP_VERSION: [ '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5' ]
+        include:
+          - laravel: '9'
+            php: '8.2'
+            illuminate: '^9.0'
+            testbench: '^7.0'
+            phpunit: '^9.6'
+          - laravel: '9'
+            php: '8.3'
+            illuminate: '^9.0'
+            testbench: '^7.0'
+            phpunit: '^9.6'
+          - laravel: '9'
+            php: '8.4'
+            illuminate: '^9.0'
+            testbench: '^7.0'
+            phpunit: '^9.6'
+          - laravel: '9'
+            php: '8.5'
+            illuminate: '^9.0'
+            testbench: '^7.0'
+            phpunit: '^9.6'
+          - laravel: '10'
+            php: '8.2'
+            illuminate: '^10.0'
+            testbench: '^8.0'
+            phpunit: '^10.5'
+          - laravel: '10'
+            php: '8.3'
+            illuminate: '^10.0'
+            testbench: '^8.0'
+            phpunit: '^10.5'
+          - laravel: '10'
+            php: '8.4'
+            illuminate: '^10.0'
+            testbench: '^8.0'
+            phpunit: '^10.5'
+          - laravel: '10'
+            php: '8.5'
+            illuminate: '^10.0'
+            testbench: '^8.0'
+            phpunit: '^10.5'
+          - laravel: '11'
+            php: '8.2'
+            illuminate: '^11.0'
+            testbench: '^9.0'
+            phpunit: '^11.5'
+          - laravel: '11'
+            php: '8.3'
+            illuminate: '^11.0'
+            testbench: '^9.0'
+            phpunit: '^11.5'
+          - laravel: '11'
+            php: '8.4'
+            illuminate: '^11.0'
+            testbench: '^9.0'
+            phpunit: '^11.5'
+          - laravel: '11'
+            php: '8.5'
+            illuminate: '^11.0'
+            testbench: '^9.0'
+            phpunit: '^11.5'
+          - laravel: '12'
+            php: '8.3'
+            illuminate: '^12.0'
+            testbench: '^10.0'
+            phpunit: '^11.5'
+          - laravel: '12'
+            php: '8.2'
+            illuminate: '^12.0'
+            testbench: '^10.0'
+            phpunit: '^11.5'
+          - laravel: '12'
+            php: '8.4'
+            illuminate: '^12.0'
+            testbench: '^10.0'
+            phpunit: '^11.5'
+          - laravel: '12'
+            php: '8.5'
+            illuminate: '^12.0'
+            testbench: '^10.0'
+            phpunit: '^11.5'
     steps:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Prepare PHP Environment - PHP v${{ matrix.PHP_VERSION }}
+      - name: Prepare PHP Environment - PHP v${{ matrix.php }}
         uses: ./.github/actions/prepare-php-environment/
         with:
-          PHP_VERSION: ${{ matrix.PHP_VERSION }}
+          PHP_VERSION: ${{ matrix.php }}
 
-      - name: Install composer dependencies
-        uses: ramsey/composer-install@v3
+      - name: Resolve dependencies for Laravel ${{ matrix.laravel }}
+        run: >
+          composer update --no-interaction --prefer-dist --with-all-dependencies
+          --with "illuminate/console:${{ matrix.illuminate }}"
+          --with "illuminate/database:${{ matrix.illuminate }}"
+          --with "illuminate/support:${{ matrix.illuminate }}"
+          --with "orchestra/testbench:${{ matrix.testbench }}"
+          --with "phpunit/phpunit:${{ matrix.phpunit }}"
 
-      - name: Unit Tests - PHP v${{ matrix.PHP_VERSION }}
+      - name: Run PHPUnit - Laravel ${{ matrix.laravel }}
         run: |
           php ./vendor/bin/phpunit --colors="always"

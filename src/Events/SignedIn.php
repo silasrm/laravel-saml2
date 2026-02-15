@@ -2,13 +2,11 @@
 
 namespace Slides\Saml2\Events;
 
-use Slides\Saml2\Saml2User;
 use Slides\Saml2\Auth;
+use Slides\Saml2\Saml2User;
 
 /**
  * Class LoggedIn
- *
- * @package Slides\Saml2\Events
  */
 class SignedIn
 {
@@ -28,9 +26,6 @@ class SignedIn
 
     /**
      * LoggedIn constructor.
-     *
-     * @param Saml2User $user
-     * @param Auth $auth
      */
     public function __construct(Saml2User $user, Auth $auth)
     {

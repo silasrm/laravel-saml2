@@ -1,22 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Slides\Saml2\Tests\Fakes;
 
 class FakeQueryBuilder
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     public $calls = [];
 
-    /**
-     * @var mixed
-     */
     private $result;
 
-    /**
-     * @param mixed $result
-     */
     public function __construct($result)
     {
         $this->result = $result;

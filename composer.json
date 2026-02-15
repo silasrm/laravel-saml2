@@ -26,18 +26,23 @@
         "source": "https://github.com/scaler-tech/laravel-saml2"
     },
     "require": {
-        "php": ">=7.1",
+        "php": ">=8.2",
         "ext-openssl": "*",
-        "illuminate/console": "^5.5 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0",
-        "illuminate/database": "^5.5 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0",
-        "illuminate/support": "^5.5 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0",
-        "onelogin/php-saml": "^3.0 || ^4.0",
-        "ramsey/uuid": "^3.8 || ^4.0"
+        "illuminate/console": "^9.0 || ^10.0 || ^11.0 || ^12.0",
+        "illuminate/database": "^9.0 || ^10.0 || ^11.0 || ^12.0",
+        "illuminate/support": "^9.0 || ^10.0 || ^11.0 || ^12.0",
+        "onelogin/php-saml": "^4.0",
+        "ramsey/uuid": "^4.0"
     },
     "require-dev": {
-        "mockery/mockery": "^0.9.9",
-        "phpunit/phpunit": "^7.5 || ^8.5 || ^9.0",
-        "squizlabs/php_codesniffer": "^2.3"
+        "mockery/mockery": "^1.6",
+        "phpunit/phpunit": "^9.6 || ^10.5 || ^11.5",
+        "orchestra/testbench": "^7.0 || ^8.0 || ^9.0 || ^10.0",
+        "friendsofphp/php-cs-fixer": "^3.94",
+        "kubawerlos/php-cs-fixer-custom-fixers": "^3.36",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-strict-rules": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -55,9 +60,6 @@
         }
     },
     "extra": {
-        "branch-aliases": {
-            "dev-master": "2.4.x-dev"
-        },
         "laravel": {
             "aliases": {
                 "Saml2": "Slides\\Saml2\\Facades\\Auth"
@@ -66,5 +68,8 @@
                 "Slides\\Saml2\\ServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "test": "@php vendor/bin/phpunit"
     }
 }

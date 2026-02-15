@@ -1,50 +1,55 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Slides\Saml2\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Slides\Saml2\Tests\Fakes\FakeValidatesInputCommand;
 
+/**
+ * @internal
+ */
 class ValidatesInputTest extends TestCase
 {
-    public function testResolveNameIdFormatReturnsOptionWhenSupported()
+    public function testResolveNameIdFormatReturnsOptionWhenSupported(): void
     {
         $command = new FakeValidatesInputCommand(['nameIdFormat' => 'unspecified']);
 
         $resolved = $command->resolve();
 
-        $this->assertSame('unspecified', $resolved);
-        $this->assertNull($command->lastErrorMessage);
+        self::assertSame('unspecified', $resolved);
+        self::assertNull($command->lastErrorMessage);
     }
 
-    public function testResolveNameIdFormatReturnsDefaultPersistentWhenOptionMissing()
+    public function testResolveNameIdFormatReturnsDefaultPersistentWhenOptionMissing(): void
     {
         $command = new FakeValidatesInputCommand();
 
         $resolved = $command->resolve();
 
-        $this->assertSame('persistent', $resolved);
-        $this->assertNull($command->lastErrorMessage);
+        self::assertSame('persistent', $resolved);
+        self::assertNull($command->lastErrorMessage);
     }
 
-    public function testResolveNameIdFormatReturnsNullWhenOptionIsInvalid()
+    public function testResolveNameIdFormatReturnsNullWhenOptionIsInvalid(): void
     {
         $command = new FakeValidatesInputCommand(['nameIdFormat' => 'invalid-format']);
 
         $resolved = $command->resolve();
 
-        $this->assertNull($resolved);
-        $this->assertStringContainsString('Name ID format is invalid', (string) $command->lastErrorMessage);
-        $this->assertStringContainsString('persistent', (string) $command->lastErrorMessage);
+        self::assertNull($resolved);
+        self::assertStringContainsString('Name ID format is invalid', (string) $command->lastErrorMessage);
+        self::assertStringContainsString('persistent', (string) $command->lastErrorMessage);
     }
 
-    public function testResolveNameIdFormatUsesProvidedOptionName()
+    public function testResolveNameIdFormatUsesProvidedOptionName(): void
     {
         $command = new FakeValidatesInputCommand(['format' => 'transient']);
 
         $resolved = $command->resolveFromOption('format');
 
-        $this->assertSame('transient', $resolved);
-        $this->assertNull($command->lastErrorMessage);
+        self::assertSame('transient', $resolved);
+        self::assertNull($command->lastErrorMessage);
     }
 }

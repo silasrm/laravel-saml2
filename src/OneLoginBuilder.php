@@ -2,23 +2,19 @@
 
 namespace Slides\Saml2;
 
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\URL;
 use OneLogin\Saml2\Auth as OneLoginAuth;
 use OneLogin\Saml2\Utils as OneLoginUtils;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Contracts\Container\Container;
 use Slides\Saml2\Models\Tenant;
-use Illuminate\Support\Arr;
 
 /**
  * Class OneLoginBuilder
- *
- * @package Slides\Saml2
  */
 class OneLoginBuilder
 {
-    /**
-     * @var Container
-     */
+    /** @var Container */
     protected $app;
 
     /**
@@ -30,8 +26,6 @@ class OneLoginBuilder
 
     /**
      * OneLoginBuilder constructor.
-     *
-     * @param Container $app
      */
     public function __construct(Container $app)
     {
@@ -40,8 +34,6 @@ class OneLoginBuilder
 
     /**
      * Set a tenant.
-     *
-     * @param Tenant $tenant
      *
      * @return $this
      */
@@ -54,8 +46,6 @@ class OneLoginBuilder
 
     /**
      * Bootstrap the OneLogin toolkit.
-     *
-     * @param Tenant $tenant
      *
      * @return void
      */
@@ -75,7 +65,7 @@ class OneLoginBuilder
                 'entityId' => $this->tenant->idp_entity_id,
                 'singleSignOnService' => ['url' => $this->tenant->idp_login_url],
                 'singleLogoutService' => ['url' => $this->tenant->idp_logout_url],
-                'x509cert' => $this->tenant->idp_x509_cert
+                'x509cert' => $this->tenant->idp_x509_cert,
             ];
 
             $oneLoginConfig['sp']['NameIDFormat'] = $this->resolveNameIdFormatPrefix($this->tenant->name_id_format);
@@ -84,21 +74,19 @@ class OneLoginBuilder
         });
 
         $this->app->singleton('Slides\Saml2\Auth', function ($app) {
-            return new \Slides\Saml2\Auth($app['OneLogin_Saml2_Auth'], $this->tenant);
+            return new Auth($app['OneLogin_Saml2_Auth'], $this->tenant);
         });
     }
 
     /**
      * Set default config values if they weren't set.
      *
-     * @param array $config
-     *
      * @return void
      */
     protected function setConfigDefaultValues(array &$config)
     {
         foreach ($this->configDefaultValues() as $key => $default) {
-            if(!Arr::get($config, $key)) {
+            if (!Arr::get($config, $key)) {
                 Arr::set($config, $key, $default);
             }
         }
@@ -114,16 +102,12 @@ class OneLoginBuilder
         return [
             'sp.entityId' => URL::route('saml.metadata', ['uuid' => $this->tenant->uuid]),
             'sp.assertionConsumerService.url' => URL::route('saml.acs', ['uuid' => $this->tenant->uuid]),
-            'sp.singleLogoutService.url' => URL::route('saml.sls', ['uuid' => $this->tenant->uuid])
+            'sp.singleLogoutService.url' => URL::route('saml.sls', ['uuid' => $this->tenant->uuid]),
         ];
     }
 
     /**
      * Resolve the Name ID Format prefix.
-     *
-     * @param string $format
-     *
-     * @return string
      */
     protected function resolveNameIdFormatPrefix(string $format): string
     {
@@ -134,7 +118,7 @@ class OneLoginBuilder
             case 'unspecified':
                 return 'urn:oasis:names:tc:SAML:1.1:nameid-format:' . $format;
             default:
-                return 'urn:oasis:names:tc:SAML:2.0:nameid-format:'. $format;
+                return 'urn:oasis:names:tc:SAML:2.0:nameid-format:' . $format;
         }
     }
 }

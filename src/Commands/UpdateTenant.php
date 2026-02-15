@@ -7,12 +7,11 @@ use Slides\Saml2\Repositories\TenantRepository;
 
 /**
  * Class UpdateTenant
- *
- * @package Slides\Saml2\Commands
  */
 class UpdateTenant extends \Illuminate\Console\Command
 {
-    use RendersTenants, ValidatesInput;
+    use RendersTenants;
+    use ValidatesInput;
 
     /**
      * The name and signature of the console command.
@@ -36,15 +35,11 @@ class UpdateTenant extends \Illuminate\Console\Command
      */
     protected $description = 'Update a Tenant entity (relying identity provider)';
 
-    /**
-     * @var TenantRepository
-     */
+    /** @var TenantRepository */
     protected $tenants;
 
     /**
      * DeleteTenant constructor.
-     *
-     * @param TenantRepository $tenants
      */
     public function __construct(TenantRepository $tenants)
     {
@@ -60,8 +55,9 @@ class UpdateTenant extends \Illuminate\Console\Command
      */
     public function handle()
     {
-        if(!$tenant = $this->tenants->findById($this->argument('id'))) {
+        if (!$tenant = $this->tenants->findById($this->argument('id'))) {
             $this->error('Cannot find a tenant #' . $this->argument('id'));
+
             return;
         }
 
@@ -72,7 +68,7 @@ class UpdateTenant extends \Illuminate\Console\Command
             'idp_logout_url' => $this->option('logoutUrl'),
             'idp_x509_cert' => $this->option('x509cert'),
             'relay_state_url' => $this->option('relayStateUrl'),
-            'metadata' => ConsoleHelper::stringToArray($this->option('metadata'))
+            'metadata' => ConsoleHelper::stringToArray($this->option('metadata')),
         ]);
 
         if ($this->option('nameIdFormat') !== null) {
@@ -85,8 +81,9 @@ class UpdateTenant extends \Illuminate\Console\Command
 
         $tenant->update($updates);
 
-        if(!$tenant->save()) {
+        if (!$tenant->save()) {
             $this->error('Tenant cannot be saved.');
+
             return;
         }
 

@@ -6,8 +6,6 @@ use Illuminate\Support\Arr;
 
 /**
  * Class ConsoleHelper
- *
- * @package App\Helpers
  */
 class ConsoleHelper
 {
@@ -16,15 +14,11 @@ class ConsoleHelper
      *
      * Also supports one-dimensional array in the representation "value1,value2,value3"
      *
-     * @param string|null $string
-     * @param string $valueDelimiter
-     * @param string $itemDelimiter
-     *
      * @return array
      */
     public static function stringToArray(?string $string = null, string $valueDelimiter = ':', string $itemDelimiter = ',')
     {
-        if(is_null($string)) {
+        if (is_null($string)) {
             return [];
         }
 
@@ -37,7 +31,7 @@ class ConsoleHelper
             $key = Arr::get($item, 0);
             $value = Arr::get($item, 1);
 
-            if(is_null($value)) {
+            if (is_null($value)) {
                 $value = $key;
                 $key = $index;
             }
@@ -53,17 +47,13 @@ class ConsoleHelper
      *
      * ['one', 'two', 'three'] to 'one, two, three',
      * ['one' => 1, 'two' => 2, 'three' => 3] to 'one:1,two:2,three:3'
-     *
-     * @param array $array
-     *
-     * @return string
      */
     public static function arrayToString(array $array): string
     {
         $values = [];
 
         foreach ($array as $key => $value) {
-            if(is_array($value)) {
+            if (is_array($value)) {
                 continue;
             }
 

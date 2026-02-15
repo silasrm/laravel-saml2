@@ -4,8 +4,6 @@ namespace Slides\Saml2;
 
 /**
  * Class ServiceProvider
- *
- * @package Slides\Saml2
  */
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -15,6 +13,16 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      * @var bool
      */
     protected $defer = false;
+
+    /**
+     * Register package services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->mergeConfigFrom(__DIR__ . '/../config/saml2.php', 'saml2');
+    }
 
     /**
      * Bootstrap the application events.
@@ -37,7 +45,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     protected function bootRoutes()
     {
-        if($this->app['config']['saml2.useRoutes'] == true) {
+        if (config('saml2.useRoutes', true) == true) {
             include __DIR__ . '/Http/routes.php';
         }
     }
@@ -52,7 +60,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $source = __DIR__ . '/../config/saml2.php';
 
         $this->publishes([$source => config_path('saml2.php')]);
-        $this->mergeConfigFrom($source, 'saml2');
     }
 
     /**
@@ -63,12 +70,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function bootCommands()
     {
         $this->commands([
-            \Slides\Saml2\Commands\CreateTenant::class,
-            \Slides\Saml2\Commands\UpdateTenant::class,
-            \Slides\Saml2\Commands\DeleteTenant::class,
-            \Slides\Saml2\Commands\RestoreTenant::class,
-            \Slides\Saml2\Commands\ListTenants::class,
-            \Slides\Saml2\Commands\TenantCredentials::class
+            Commands\CreateTenant::class,
+            Commands\UpdateTenant::class,
+            Commands\DeleteTenant::class,
+            Commands\RestoreTenant::class,
+            Commands\ListTenants::class,
+            Commands\TenantCredentials::class,
         ]);
     }
 
@@ -79,7 +86,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     protected function bootMiddleware()
     {
-        $this->app['router']->aliasMiddleware('saml2.resolveTenant', \Slides\Saml2\Http\Middleware\ResolveTenant::class);
+        $this->app['router']->aliasMiddleware('saml2.resolveTenant', Http\Middleware\ResolveTenant::class);
     }
 
     /**

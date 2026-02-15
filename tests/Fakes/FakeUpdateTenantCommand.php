@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Slides\Saml2\Tests\Fakes;
 
 use Slides\Saml2\Commands\UpdateTenant;
@@ -8,29 +10,18 @@ use Slides\Saml2\Repositories\TenantRepository;
 
 class FakeUpdateTenantCommand extends UpdateTenant
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     private $arguments;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $options;
 
-    /**
-     * @var string[]
-     */
+    /** @var array<string> */
     public $errors = [];
 
-    /**
-     * @var string[]
-     */
+    /** @var array<string> */
     public $infos = [];
 
-    /**
-     * @var mixed
-     */
     public $lastRenderedTenant;
 
     public function __construct(TenantRepository $tenants, array $arguments = [], array $options = [])
@@ -40,9 +31,7 @@ class FakeUpdateTenantCommand extends UpdateTenant
         $this->arguments = $arguments;
         $this->options = $options;
         $this->output = new class {
-            public function newLine($count = 1)
-            {
-            }
+            public function newLine($count = 1) {}
         };
     }
 

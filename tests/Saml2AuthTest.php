@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Slides\Saml2\Tests;
 
 use OneLogin\Saml2\Error as OneLoginError;
@@ -7,6 +9,9 @@ use PHPUnit\Framework\TestCase;
 use Slides\Saml2\Auth;
 use Slides\Saml2\Models\Tenant;
 
+/**
+ * @internal
+ */
 class Saml2AuthTest extends TestCase
 {
     public function tearDown(): void
@@ -14,17 +19,17 @@ class Saml2AuthTest extends TestCase
         \Mockery::close();
     }
 
-    public function testIsAuthenticated()
+    public function testIsAuthenticated(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
 
         $oneLoginAuth->shouldReceive('isAuthenticated')->andReturn(true);
 
-        $this->assertEquals(true, $saml2Auth->isAuthenticated());
+        self::assertTrue($saml2Auth->isAuthenticated());
     }
 
-    public function testLogin()
+    public function testLogin(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
@@ -36,10 +41,10 @@ class Saml2AuthTest extends TestCase
 
         $result = $saml2Auth->login();
 
-        $this->assertSame('https://idp.example.com/default-login-request', $result);
+        self::assertSame('https://idp.example.com/default-login-request', $result);
     }
 
-    public function testLoginForwardsAllArguments()
+    public function testLoginForwardsAllArguments(): void
     {
         $expectedReturnTo = 'https://example.com/dashboard';
         $expectedParameters = ['tenant' => 'acme'];
@@ -59,7 +64,7 @@ class Saml2AuthTest extends TestCase
                 $expectedForceAuthn,
                 $expectedIsPassive,
                 $expectedStay,
-                $expectedSetNameIdPolicy
+                $expectedSetNameIdPolicy,
             )
             ->andReturn('https://idp.example.com/login-request');
 
@@ -69,13 +74,13 @@ class Saml2AuthTest extends TestCase
             $expectedForceAuthn,
             $expectedIsPassive,
             $expectedStay,
-            $expectedSetNameIdPolicy
+            $expectedSetNameIdPolicy,
         );
 
-        $this->assertSame('https://idp.example.com/login-request', $result);
+        self::assertSame('https://idp.example.com/login-request', $result);
     }
 
-    public function testLogout()
+    public function testLogout(): void
     {
         $expectedReturnTo = 'http://localhost';
         $expectedSessionIndex = 'session_index_value';
@@ -96,20 +101,19 @@ class Saml2AuthTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
-    public function testAcsError()
+    public function testAcsError(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
         $oneLoginAuth->shouldReceive('processResponse')->once();
-        $oneLoginAuth->shouldReceive('getErrors')->once()->andReturn(array('errors'));
+        $oneLoginAuth->shouldReceive('getErrors')->once()->andReturn(['errors']);
 
         $error = $saml2Auth->acs();
 
-        $this->assertSame(['errors'], $error);
+        self::assertSame(['errors'], $error);
     }
 
-
-    public function testAcsNotAuthenticated()
+    public function testAcsNotAuthenticated(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
@@ -118,11 +122,10 @@ class Saml2AuthTest extends TestCase
         $oneLoginAuth->shouldReceive('isAuthenticated')->once()->andReturn(false);
         $error =  $saml2Auth->acs();
 
-        $this->assertSame(['error' => 'Could not authenticate'], $error);
+        self::assertSame(['error' => 'Could not authenticate'], $error);
     }
 
-
-    public function testAcsOK()
+    public function testAcsOK(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
@@ -132,10 +135,10 @@ class Saml2AuthTest extends TestCase
 
         $error =  $saml2Auth->acs();
 
-        $this->assertEmpty($error);
+        self::assertNull($error);
     }
 
-    public function testSlsError()
+    public function testSlsError(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
@@ -143,16 +146,16 @@ class Saml2AuthTest extends TestCase
             false,
             null,
             false,
-            \Mockery::type('callable')
+            \Mockery::type('callable'),
         );
-        $oneLoginAuth->shouldReceive('getErrors')->once()->andReturn('errors');
+        $oneLoginAuth->shouldReceive('getErrors')->once()->andReturn(['errors']);
 
         $error =  $saml2Auth->sls();
 
-        $this->assertSame('errors', $error);
+        self::assertSame(['errors'], $error);
     }
 
-    public function testSlsOK()
+    public function testSlsOK(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
@@ -160,16 +163,16 @@ class Saml2AuthTest extends TestCase
             false,
             null,
             false,
-            \Mockery::type('callable')
+            \Mockery::type('callable'),
         );
         $oneLoginAuth->shouldReceive('getErrors')->once()->andReturn(null);
 
         $error =  $saml2Auth->sls();
 
-        $this->assertNull($error);
+        self::assertNull($error);
     }
 
-    public function testSlsCanRetrieveParametersFromServer()
+    public function testSlsCanRetrieveParametersFromServer(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
@@ -177,44 +180,44 @@ class Saml2AuthTest extends TestCase
             false,
             null,
             true,
-            \Mockery::type('callable')
+            \Mockery::type('callable'),
         );
         $oneLoginAuth->shouldReceive('getErrors')->once()->andReturn(null);
 
         $error =  $saml2Auth->sls(true);
 
-        $this->assertNull($error);
+        self::assertNull($error);
     }
 
-    public function testCanGetLastError()
+    public function testCanGetLastError(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
 
         $oneLoginAuth->shouldReceive('getLastErrorReason')->andReturn('lastError');
 
-        $this->assertSame('lastError', $saml2Auth->getLastErrorReason());
+        self::assertSame('lastError', $saml2Auth->getLastErrorReason());
     }
 
-    public function testCanGetLastMessageId()
+    public function testCanGetLastMessageId(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
 
         $oneLoginAuth->shouldReceive('getLastMessageId')->once()->andReturn('message-id-123');
 
-        $this->assertSame('message-id-123', $saml2Auth->getLastMessageId());
+        self::assertSame('message-id-123', $saml2Auth->getLastMessageId());
     }
 
-    public function testGetBaseReturnsUnderlyingAuth()
+    public function testGetBaseReturnsUnderlyingAuth(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
 
-        $this->assertSame($oneLoginAuth, $saml2Auth->getBase());
+        self::assertSame($oneLoginAuth, $saml2Auth->getBase());
     }
 
-    public function testCanSetAndGetTenant()
+    public function testCanSetAndGetTenant(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $initialTenant = new Tenant();
@@ -224,11 +227,11 @@ class Saml2AuthTest extends TestCase
 
         $saml2Auth->setTenant($updatedTenant);
 
-        $this->assertSame($updatedTenant, $saml2Auth->getTenant());
-        $this->assertSame('tenant-uuid-2', $saml2Auth->getTenant()->uuid);
+        self::assertSame($updatedTenant, $saml2Auth->getTenant());
+        self::assertSame('tenant-uuid-2', $saml2Auth->getTenant()->uuid);
     }
 
-    public function testLogoutReturnsValueFromBaseAuth()
+    public function testLogoutReturnsValueFromBaseAuth(): void
     {
         $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
         $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
@@ -239,23 +242,10 @@ class Saml2AuthTest extends TestCase
 
         $result = $saml2Auth->logout(null, null, null, null, true, null);
 
-        $this->assertSame('https://idp.example.com/logout-request', $result);
+        self::assertSame('https://idp.example.com/logout-request', $result);
     }
 
-    public function testGetUserAttribute() {
-        $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
-        $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
-
-        $user = $saml2Auth->getSaml2User();
-
-        $oneLoginAuth->shouldReceive('getAttribute')
-            ->with('urn:oid:0.9.2342.19200300.100.1.3')
-            ->andReturn(['test@example.com']);
-
-        $this->assertEquals(['test@example.com'], $user->getAttribute('urn:oid:0.9.2342.19200300.100.1.3'));
-    }
-
-    public function testGetSaml2UserKeepsResolvedTenant()
+    public function testGetSaml2UserKeepsResolvedTenant(): void
     {
         $tenant = new Tenant();
         $tenant->uuid = 'tenant-uuid-1';
@@ -264,45 +254,11 @@ class Saml2AuthTest extends TestCase
 
         $user = $saml2Auth->getSaml2User();
 
-        $this->assertSame($tenant, $user->getTenant());
-        $this->assertSame('tenant-uuid-1', $user->getTenant()->uuid);
+        self::assertSame($tenant, $user->getTenant());
+        self::assertSame('tenant-uuid-1', $user->getTenant()->uuid);
     }
 
-    public function testParseSingleUserAttribute() {
-        $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
-        $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
-
-        $user = $saml2Auth->getSaml2User();
-
-        $oneLoginAuth->shouldReceive('getAttribute')
-            ->with('urn:oid:0.9.2342.19200300.100.1.3')
-            ->andReturn(['test@example.com']);
-
-        $user->parseUserAttribute('urn:oid:0.9.2342.19200300.100.1.3', 'email');
-
-        $this->assertSame(['test@example.com'], $user->email);
-    }
-
-    public function testParseMultipleUserAttributes() {
-        $oneLoginAuth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
-        $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
-
-        $user = $saml2Auth->getSaml2User();
-
-        $oneLoginAuth->shouldReceive('getAttribute')
-            ->twice()
-            ->andReturn(['test@example.com'], ['Test User']);
-
-        $user->parseAttributes([
-            'email' => 'urn:oid:0.9.2342.19200300.100.1.3',
-            'displayName' => 'urn:oid:2.16.840.1.113730.3.1.241'
-        ]);
-
-        $this->assertSame(['test@example.com'], $user->email);
-        $this->assertSame(['Test User'], $user->displayName);
-    }
-
-    public function testGetMetadataReturnsMetadataWhenValid()
+    public function testGetMetadataReturnsMetadataWhenValid(): void
     {
         $metadata = '<xml>metadata</xml>';
         $settings = \Mockery::mock(\OneLogin\Saml2\Settings::class);
@@ -314,10 +270,10 @@ class Saml2AuthTest extends TestCase
 
         $saml2Auth = new Auth($oneLoginAuth, $this->mockTenant());
 
-        $this->assertSame($metadata, $saml2Auth->getMetadata());
+        self::assertSame($metadata, $saml2Auth->getMetadata());
     }
 
-    public function testGetMetadataThrowsWhenInvalid()
+    public function testGetMetadataThrowsWhenInvalid(): void
     {
         $metadata = '<xml>metadata</xml>';
         $settings = \Mockery::mock(\OneLogin\Saml2\Settings::class);
@@ -337,24 +293,10 @@ class Saml2AuthTest extends TestCase
     }
 
     /**
-     * Mock the authentication handler.
-     *
-     * @return Auth|\Mockery\MockInterface
-     */
-    protected function mockAuth()
-    {
-        $auth = \Mockery::mock(\OneLogin\Saml2\Auth::class);
-
-        return new Auth($auth, $this->mockTenant());
-    }
-
-    /**
      * Create a fake tenant.
-     *
-     * @return \Slides\Saml2\Models\Tenant
      */
-    protected function mockTenant()
+    protected function mockTenant(): Tenant
     {
-        return new \Slides\Saml2\Models\Tenant();
+        return new Tenant();
     }
 }

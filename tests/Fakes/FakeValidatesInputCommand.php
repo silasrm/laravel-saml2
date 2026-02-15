@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Slides\Saml2\Tests\Fakes;
 
 use Slides\Saml2\Commands\ValidatesInput;
@@ -8,14 +10,10 @@ class FakeValidatesInputCommand
 {
     use ValidatesInput;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $options;
 
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     public $lastErrorMessage;
 
     public function __construct(array $options = [])

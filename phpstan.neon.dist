@@ -1,0 +1,16 @@
+# Alexander Tebiev - https://github.com/beeyev
+
+includes:
+	- ./vendor/phpstan/phpstan/conf/bleedingEdge.neon
+	- ./vendor/phpstan/phpstan-strict-rules/rules.neon
+	- ./vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+	phpVersion: 80200
+	level: 8
+	treatPhpDocTypesAsCertain: false
+	paths:
+		- ./config/
+		- ./database/
+		- ./src/
+		- ./tests/
