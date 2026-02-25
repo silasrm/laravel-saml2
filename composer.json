@@ -13,7 +13,8 @@
     "authors": [
         {
             "name": "Scaler Tech",
-            "role": "Maintainer"
+            "role": "Maintainer",
+            "homepage": "https://github.com/scaler-tech/laravel-saml2"
         },
         {
             "name": "Artem Brezhnev",
@@ -52,6 +53,9 @@
         "files": [
             "src/helpers.php"
         ]
+    },
+    "replace": {
+        "24slides/laravel-saml2": "self.version"
     },
     "autoload-dev": {
         "psr-4": {
