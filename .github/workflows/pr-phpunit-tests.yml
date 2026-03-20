@@ -106,6 +106,21 @@ jobs:
             illuminate: '^12.0'
             testbench: '^10.0'
             phpunit: '^11.5'
+          - laravel: '13'
+            php: '8.3'
+            illuminate: '^13.0'
+            testbench: '^11.0'
+            phpunit: '^12.5'
+          - laravel: '13'
+            php: '8.4'
+            illuminate: '^13.0'
+            testbench: '^11.0'
+            phpunit: '^12.5'
+          - laravel: '13'
+            php: '8.5'
+            illuminate: '^13.0'
+            testbench: '^11.0'
+            phpunit: '^12.5'
     steps:
       - name: Check out code
         uses: actions/checkout@v4
