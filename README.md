@@ -54,7 +54,7 @@ composer update scaler-tech/laravel-saml2 --with-all-dependencies
 - `2.5.x` supports PHP `7.0` through `8.5`.
 - `2.5.x` supports Laravel `5.5` through `12.x`.
 - Versions greater than `2.7.x` require PHP `8.2` or newer.
-- Versions greater than `2.7.x` support Laravel `9.x` through `12.x`.
+- Versions greater than `2.7.x` support Laravel `9.x` through `13.x`.
 - It is safe to migrate within `2.x` as long as your PHP and Laravel versions are supported.
 - `3.x` is currently in development and will include breaking changes, so it will not be backwards compatible with the older package line.
 
