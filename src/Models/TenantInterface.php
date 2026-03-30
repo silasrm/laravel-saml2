@@ -3,7 +3,7 @@
 namespace Slides\Saml2\Models;
 
 /**
- * Class Tenant
+ * Interface TenantInterface
  *
  * @property int            $id
  * @property string         $uuid
