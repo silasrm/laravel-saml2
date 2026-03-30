@@ -74,7 +74,7 @@ trait RendersTenants
      *
      * @return void
      */
-    protected function renderTenantCredentials(Tenant $tenant)
+    protected function renderTenantCredentials(TenantInterface $tenant)
     {
         $this->output->section('Credentials for the tenant');
 
