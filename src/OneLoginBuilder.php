@@ -20,7 +20,7 @@ class OneLoginBuilder
     /**
      * The resolved tenant.
      *
-     * @var Tenant|TenantInterface
+     * @var TenantInterface
      */
     protected $tenant;
 
